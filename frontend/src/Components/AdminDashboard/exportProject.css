@@ -1,0 +1,80 @@
+/* Form Styles */
+
+form {
+  /* Replaced transform: translateY(-5%) with margin-top: 5vh */
+  margin-top: 5vh;
+  height: auto;
+  width: auto;
+  padding: 25px;
+  box-sizing: border-box; /* added box-sizing to include padding in width calculation */
+}
+
+/* Form Top Styles */
+
+.form-top .form-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-top .form-right span {
+  font-size: 25px;
+  background: aqua;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+/* Export Styles */
+
+form .export {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Input Section Styles */
+
+.input-section .input textarea {
+  padding: 10px;
+  background: #f1f1f1e8;
+  width: 100%;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  min-height: 100px;
+  max-height: 150px;
+  overflow-y: hidden;
+  resize: vertical; /* added resize: vertical to allow textarea to be resized vertically */
+}
+
+/* Responsive Design */
+
+/* For smaller screens (e.g., mobile devices) */
+@media only screen and (max-width: 768px) {
+  form {
+    margin-top: 10vh; /* increase margin-top for smaller screens */
+    padding: 15px; /* reduce padding for smaller screens */
+  }
+  .form-top .form-right span {
+    font-size: 20px; /* reduce font size for smaller screens */
+  }
+  .input-section .input textarea {
+    min-height: 50px; /* reduce min-height for smaller screens */
+    max-height: 100px; /* reduce max-height for smaller screens */
+  }
+}
+
+/* For larger screens (e.g., desktop devices) */
+@media only screen and (min-width: 1024px) {
+  form {
+    margin-top: 2vh; /* decrease margin-top for larger screens */
+    padding: 30px; /* increase padding for larger screens */
+  }
+  .form-top .form-right span {
+    font-size: 30px; /* increase font size for larger screens */
+  }
+  .input-section .input textarea {
+    min-height: 150px; /* increase min-height for larger screens */
+    max-height: 200px; /* increase max-height for larger screens */
+  }
+}

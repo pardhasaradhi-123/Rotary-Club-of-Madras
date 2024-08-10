@@ -1,0 +1,297 @@
+* {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  overflow-x: hidden;
+}
+
+/* aside section starts */
+.aside-container {
+  display: grid;
+  grid-template-rows: 350px auto;
+  border: #f1f1f1e8 solid 0.9px;
+  height: 100vh;
+}
+.dashboard-menu {
+  display: flex;
+  padding: 10px;
+  width: 100%;
+  align-items: center;
+  gap: 5px;
+}
+.logo-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo-section img {
+  width: 50%;
+}
+/* Dropdown styles */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  padding: 15px;
+  width: 100%;
+}
+
+.dropdown-toggle {
+  display: flex;
+  justify-content: flex-start;
+  color: black;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  text-transform: capitalize;
+}
+.dropdown-toggle div {
+  display: flex;
+}
+.dropdown-toggle div img {
+  display: flex;
+  justify-content: flex-start;
+  margin-right: 5px;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #ffffff;
+  z-index: 1000;
+  width: 100%;
+}
+.dropdown-menu a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+.dropdown-item {
+  color: #343a40;
+  text-decoration: none;
+  display: block;
+  text-transform: capitalize;
+}
+.dropdown-item img {
+  margin-left: 15px;
+}
+.dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+.dropdown-toggle::after {
+  content: " ▼";
+  font-size: 12px;
+  position: absolute;
+  right: 10px;
+}
+/* Show dropdown menu on hover */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+.aside-bottom {
+  display: flex;
+  flex-direction: column;
+}
+.aside-bottom button {
+  border: #f1f1f1e8 solid 0.09px;
+  border-radius: 15px;
+  font-size: 17px;
+  text-transform: uppercase;
+}
+.aside-bottom button:hover {
+  background: #7a00eb;
+}
+/* aside section end */
+
+/* overview section starts */
+
+.container {
+  display: grid;
+  grid-template-columns: 14rem auto;
+  width: 100%;
+}
+.overview {
+  padding: 10px;
+  width: 100%;
+}
+.overview h1.heading {
+  text-transform: capitalize;
+  font-weight: 550;
+  font-size: 20px;
+}
+.overview-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0.9rem;
+}
+.overview .overDetails {
+  width: 100%;
+}
+.overview .overDetails h1 {
+  font-weight: 680;
+  font-size: 25px;
+}
+.overview .overDetails h4 {
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.overview-container .overDetails:nth-child(1) {
+  padding: 19px;
+  border-radius: 10px;
+  background: lightblue;
+}
+.overview-container .overDetails:nth-child(2) {
+  padding: 19px;
+  border-radius: 10px;
+  background: lemonchiffon;
+}
+.overview-container .overDetails:nth-child(3) {
+  padding: 19px;
+  border-radius: 10px;
+  background: lightskyblue;
+}
+.overview-container .overDetails:nth-child(4) {
+  padding: 19px;
+  border-radius: 10px;
+  background: lemonchiffon;
+}
+.overview-container .overDetails:nth-child(5) {
+  padding: 19px;
+  border-radius: 10px;
+  background: rgb(95, 191, 251);
+}
+.overview-container .overDetails img {
+  width: 30px;
+}
+/* overview section ends */
+
+/* details Report section starts*/
+.details-report-section {
+  width: 100%;
+  margin-top: 20px;
+}
+.details-report-section .heading-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.heading-section {
+  padding: 10px;
+  text-transform: capitalize;
+  font-weight: 550;
+  font-size: 20px;
+}
+.heading-section .heading-section-left {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.heading-section .btns {
+  display: flex;
+  gap: 10px;
+}
+.heading-section button {
+  border: #7a00eb solid 0.8px;
+  padding: 5px;
+  width: 30%;
+  text-transform: capitalize;
+  color: #7a00eb;
+  border-radius: 5px;
+  margin: 5px;
+  letter-spacing: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.heading-section button:hover {
+  outline: none;
+  border: none;
+  background: #7a00eb;
+  color: #f1f1f1;
+}
+.heading-section .majoreRole-details {
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 20px 10px;
+  text-transform: capitalize;
+}
+.heading-section .majoreRole-details .majore-left span {
+  color: #7a00eb;
+}
+.details-report-section h1.heading {
+  text-transform: capitalize;
+  font-weight: 550;
+  font-size: 20px;
+}
+.heading-section .majoreRole-details .majore-right {
+  width: 250px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  outline: none;
+  background: lightgreen;
+  border-radius: 5px;
+}
+.majoreRole-details .majore-right .top {
+  display: flex;
+  justify-content: end;
+}
+.majoreRole-details .majore-right .bottom h1 {
+  font-size: 35px;
+}
+.details-report-section .details-report-container {
+  margin: 15px;
+  border: solid #f1f1f1e8 0.07px;
+}
+table {
+  width: 100%;
+  border: 2px solid #333;
+  border-collapse: collapse;
+  text-transform: capitalize;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+}
+thead tr th {
+  text-transform: uppercase;
+  font-weight: 550;
+}
+th {
+  background-color: #f2f2f2;
+}
+td {
+  cursor: pointer;
+}
+table tbody tr td button.update {
+  background: lightgreen;
+  padding: 10px;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+table tbody tr td button.delete {
+  background: red;
+  padding: 10px;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+/* details report section ends */
+
+@media (max-width: 768px) {
+  .overview .overDetails h1 {
+    font-weight: 680;
+    font-size: 15px;
+  }
+}
