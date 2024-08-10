@@ -7,43 +7,43 @@ const { response } = require("../helpers/commonResponseHandler");
 
 exports.saveProject = async (req, res, next) => {
   console.log(req.body);
-  const {
-    projectName,
-    projectChairName,
-    projectSecretaryName,
-    hostClubName,
-    coHostClubName,
-    projectAvenue,
-    noOfBenifeshiers,
-    speaker,
-    totalAmountSpent,
-    projectPhotoLink,
-    projectDescription,
-    presidentName,
-    secretaryName,
-    projectMonth,
-    totalManHourSpent,
-    venue,
-  } = req.body;
+  // const {
+  //   projectName,
+  //   projectChairName,
+  //   projectSecretaryName,
+  //   hostClubName,
+  //   coHostClubName,
+  //   projectAvenue,
+  //   noOfBenifeshiers,
+  //   speaker,
+  //   totalAmountSpent,
+  //   projectPhotoLink,
+  //   projectDescription,
+  //   presidentName,
+  //   secretaryName,
+  //   projectMonth,
+  //   totalManHourSpent,
+  //   venue,
+  // } = req.body;
 
-  const newProject = new Project({
-    projectName,
-    projectChairName,
-    projectSecretaryName,
-    hostClubName,
-    coHostClubName,
-    projectAvenue,
-    noOfBenifeshiers,
-    speaker,
-    totalAmountSpent,
-    projectPhotoLink,
-    projectDescription,
-    presidentName,
-    secretaryName,
-    projectMonth,
-    totalManHourSpent,
-    venue,
-  });
+  // const newProject = new Project({
+  //   projectName,
+  //   projectChairName,
+  //   projectSecretaryName,
+  //   hostClubName,
+  //   coHostClubName,
+  //   projectAvenue,
+  //   noOfBenifeshiers,
+  //   speaker,
+  //   totalAmountSpent,
+  //   projectPhotoLink,
+  //   projectDescription,
+  //   presidentName,
+  //   secretaryName,
+  //   projectMonth,
+  //   totalManHourSpent,
+  //   venue,
+  // });
 
   try {
     await newProject.save();

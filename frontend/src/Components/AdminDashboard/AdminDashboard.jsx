@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 export default function AdminDashboard() {
   const [detailsReport, setDetailsReport] = useState([]);
   const [rotaractClubsData, setRotaractClubsData] = useState([]);
-  const [interactClubData, setInteractClubData] = useState([]);
+  // const [interactClubData, setInteractClubData] = useState([]);
   const [projectData, setProjectData] = useState([]);
 
   const navigate = useNavigate();
@@ -17,10 +17,11 @@ export default function AdminDashboard() {
     try {
       const response = await fetch("http://localhost:3005/api/v1/club/getAll"); // Replace with your API endpoint
       const data = await response.json();
-      const rotaractClubs = data.filter((club) => club.clubType === "rotaract");
-      const interactClubs = data.filter((club) => club.clubType === "interact");
-      setInteractClubData(interactClubs);
-      setRotaractClubsData(rotaractClubs);
+      console.log(data);
+      // const rotaractClubs = data.filter((club) => club.clubType === "rotaract");
+      // const interactClubs = data.filter((club) => club.clubType === "interact");
+      // setInteractClubData(interactClubs);
+      // setRotaractClubsData(rotaractClubs);
       setDetailsReport(data);
     } catch (error) {
       console.error("Error fetching details report:", error);

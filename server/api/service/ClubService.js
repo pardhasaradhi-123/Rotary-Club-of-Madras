@@ -1,16 +1,19 @@
 const Clubs = require("../model/club");
 const dateTime = require("node-datetime");
+const bcrypt = require('bcrypt');
 
 const saveClub = async (req, res) => {
   const dt = dateTime.create();
   const formatted = dt.format("Y-m-d H:M:S");
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  console.log(hashedPassword);
   const clubsDate = {
     clubName: req.body.clubName,
     clubID: req.body.clubID,
     presidentName: req.body.presidentName,
     secretaryName: req.body.secretaryName,
     email: req.body.email,
-    Password: req.body.Password,
+    password: hashedPassword,
     clubType: req.body.clubType,
     month: req.body.month,
   };

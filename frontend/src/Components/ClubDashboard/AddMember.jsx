@@ -7,27 +7,23 @@ export default function AddMember() {
 
   const [formData, setFormData] = useState({
     name: "",
-    ID: "",
+    id: "",
     designation: "",
     email: "",
     mobileNum: "",
   });
 
   const handleChange = (e) => {
-    const { value } = e.target.value;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      name: value,
-      ID: value,
-      designation: value,
-      email: value,
-      mobileNum: value,
+      [name]: value,
     });
   };
 
   const [formErrors, setFormErrors] = useState({
     name: "",
-    ID: "",
+    id: "",
     designation: "",
     email: "",
     mobileNum: "",
@@ -37,7 +33,7 @@ export default function AddMember() {
     let valid = true;
     const newErrors = {
       name: "",
-      ID: "",
+      id: "",
       designation: "",
       email: "",
       mobileNum: "",
@@ -50,26 +46,27 @@ export default function AddMember() {
     }
 
     // ID validation
-    if (formData.ID === "") {
-      newErrors.ID = "ID is required";
+    if (formData.id === "") {
+      newErrors.id = "ID is required";
       valid = false;
     }
 
-    // designation validation
+    // Designation validation
     if (formData.designation === "") {
       newErrors.designation = "Designation is required";
       valid = false;
     }
 
     // Email validation
-    if (!formData.email.includes("@gmail.com")) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Invalid email address";
       valid = false;
     }
 
-    // mobile number validation
+    // Mobile number validation
     if (formData.mobileNum === "") {
-      newErrors.mobileNum = "enter mobile number";
+      newErrors.mobileNum = "Mobile number is required";
+      valid = false;
     }
 
     setFormErrors(newErrors);
@@ -80,7 +77,7 @@ export default function AddMember() {
     event.preventDefault();
     if (validateForm()) {
       try {
-        const response = await fetch("http://localhost:3005/api/v1/member", {
+        const response = await fetch("http://localhost:3005/api/v1/member/save", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -88,9 +85,8 @@ export default function AddMember() {
           body: JSON.stringify(formData),
         });
         if (response.ok) {
-          // Perform form submission here
           console.log("Form submitted successfully", formData);
-          navigate("/add-member");
+          navigate("/club-member");
         } else {
           console.error("Error submitting form");
         }
@@ -105,11 +101,10 @@ export default function AddMember() {
   return (
     <React.Fragment>
       <div className="form-container">
-        <form onSubmit={validateForm}>
+        <form onSubmit={handleSubmit}>
           <div className="form-top">
             <div className="form-left">
-              <h1>add member</h1>
-              <h4>titles goes here</h4>
+              <h1>Add Member</h1>
             </div>
             <div
               className="form-right"
@@ -122,10 +117,11 @@ export default function AddMember() {
           </div>
           <div className="input-section">
             <div className="input">
-              <label htmlFor="Name">name:</label>
+              <label htmlFor="name">Name:</label>
               <input
                 type="text"
-                placeholder="enter name"
+                name="name"
+                placeholder="Enter name"
                 value={formData.name}
                 onChange={handleChange}
               />
@@ -134,22 +130,24 @@ export default function AddMember() {
               )}
             </div>
             <div className="input">
-              <label htmlFor="ID"> iD:</label>
+              <label htmlFor="id">ID:</label>
               <input
                 type="text"
-                placeholder="enter id"
-                value={formData.clubID}
+                name="id"
+                placeholder="Enter ID"
+                value={formData.id}
                 onChange={handleChange}
               />
-              {formErrors.ID && (
-                <span style={{ color: "red" }}>{formErrors.ID}</span>
+              {formErrors.id && (
+                <span style={{ color: "red" }}>{formErrors.id}</span>
               )}
             </div>
             <div className="input">
-              <label htmlFor="designation">designation:</label>
+              <label htmlFor="designation">Designation:</label>
               <input
                 type="text"
-                placeholder="enter designation"
+                name="designation"
+                placeholder="Enter designation"
                 value={formData.designation}
                 onChange={handleChange}
               />
@@ -158,10 +156,11 @@ export default function AddMember() {
               )}
             </div>
             <div className="input">
-              <label htmlFor="email">emial address:</label>
+              <label htmlFor="email">Email Address:</label>
               <input
                 type="email"
-                placeholder="enter email"
+                name="email"
+                placeholder="Enter email"
                 value={formData.email}
                 onChange={handleChange}
               />
@@ -170,10 +169,11 @@ export default function AddMember() {
               )}
             </div>
             <div className="input">
-              <label htmlFor="mobile-num">mobile number:</label>
+              <label htmlFor="mobileNum">Mobile Number:</label>
               <input
                 type="text"
-                placeholder="enter mobile number"
+                name="mobileNum"
+                placeholder="Enter mobile number"
                 value={formData.mobileNum}
                 onChange={handleChange}
               />
@@ -189,10 +189,10 @@ export default function AddMember() {
                 navigate("/club-member");
               }}
             >
-              cancel
+              Cancel
             </button>
-            <button className="add" onClick={handleSubmit}>
-              add
+            <button type="submit" className="add">
+              Add
             </button>
           </div>
         </form>

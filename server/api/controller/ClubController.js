@@ -12,7 +12,6 @@ exports.saveClub = (req, res, next) => {
 exports.getAllClub = (req, res, next) => {
   var query = {};
   clubService.getAllClub(query).then((doc) => {
-    console.log(doc);
     res.status(200).json(doc);
   });
 };

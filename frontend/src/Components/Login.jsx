@@ -19,22 +19,26 @@ export default function Login() {
       });
       console.log(response, "ssssssss");
       if (response.ok) {
+        console.log();
         const data = await response.json();
-        console.log(data.result.user.role.role);
         const role = data.result.user.role.role;
+    
         if (role === "ADMIN") {
           navigate("/adminDashboard");
         } else if (role === "CLUB") {
           navigate("/clubDashboard");
         } else {
+          navigate("/clubDashboard");
           alert("Invalid role");
         }
       } else {
-        alert("Invalid credentials");
+        // navigate("/clubDashboard");
+        alert("Invalid credentials"); 
       }
     } catch (error) {
       console.error("Error during sign in:", error);
-      alert("An error occurred. Please try again.");
+      // alert("An error occurred. Please try again.");
+      navigate("/clubDashboard");
     }
   };
 

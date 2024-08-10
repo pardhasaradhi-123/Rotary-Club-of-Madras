@@ -10,7 +10,7 @@ const clubSchema = new mongoose.Schema({
   presidentName: String,
   secretaryName: String,
   email: String,
-  Password: String,
+  password: String,
   clubType: String,
   month: String,
 });

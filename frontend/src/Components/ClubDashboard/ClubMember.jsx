@@ -11,7 +11,7 @@ export default function ClubMember() {
 
   const [deleteMember, setDeleteMember] = useState(false);
   const fetchMembersData = async () => {
-    const response = await fetch("http://localhost:3005/api/v1/member");
+    const response = await fetch("http://localhost:3005/api/v1/member/getAll");
     const data = await response.json();
     setMember(data);
   };

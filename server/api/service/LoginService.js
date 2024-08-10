@@ -1,33 +1,38 @@
 const User = require("../model/user");
+const Clubs = require("../model/club");
 const logger = require("../lib/logger");
 const { response } = require("../helpers/commonResponseHandler");
 const { clientError } = require("../helpers/ErrorMsg");
+const bcrypt = require('bcrypt');
 
 async function login(req, res) {
-  console.log("reqqqqqqqq", req.body);
-  var emailId = req.body.username.toLowerCase();
-  await User.findOne({ emailId: emailId })
-    .populate("role")
-    .exec()
-    .then((doc) => {
-      console.log(doc);
-      if (doc) {
-        if (doc.isValid(req.body.password)) {
-          logger.info("Login Success");
-          response(res, true, 200, { user: doc }, clientError.loginSuccess);
-        } else {
-          response(res, false, 501, {}, clientError.invalidPassword);
-        }
+  console.log("req body:", req.body);
+  const emailId = req.body.username.toLowerCase();
+
+  try {
+    let user = await User.findOne({ emailId: emailId }).populate("role").exec();
+
+    if (!user) {
+      console.log(emailId);
+      user = await Clubs.findOne({ email: emailId }).exec();
+    }
+    if (user) {
+      const isMatch = await bcrypt.compare(req.body.password, user.password);
+      if (isMatch) {
+        logger.info("Login Success");
+        response(res, true, 200, { user: user }, clientError.loginSuccess);
       } else {
-        response(res, false, 501, {}, clientError.UserNotFound);
+        response(res, false, 501, {}, clientError.invalidPassword);
       }
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
+    } else {
+      response(res, false, 501, {}, clientError.UserNotFound);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      error: err,
     });
+  }
 }
 
 module.exports.login = login;
