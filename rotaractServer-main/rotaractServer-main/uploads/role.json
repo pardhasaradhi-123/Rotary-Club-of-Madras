@@ -1,0 +1,14 @@
+[ 
+    {
+        "role": "SHINE",
+        "status": 1,
+        "default": 1,
+        "roleCode":1
+    },
+    {
+        "role": "SUPERADMIN",
+        "status": 1,
+        "default": 1,
+        "roleCode":2
+    }
+]

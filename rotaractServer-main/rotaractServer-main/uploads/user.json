@@ -1,0 +1,22 @@
+[
+    {
+        "userName": "Admin",
+        "mobile": 90000000000,
+        "password": "$2a$10$RuiNx62X.5lytwD7QWoiyOcQqoA3o/2Ymr0Nrv4YRo92UlNtT9oEa",
+        "emailId": "admin@gmail.com",
+        "status": 1,
+        "userCode": 1,
+        "default": 1,
+        "registerCode": 1
+    },
+    {
+        "userName": "Super Admin",
+        "mobile": 90000000000,
+        "password": "$2a$10$RuiNx62X.5lytwD7QWoiyOcQqoA3o/2Ymr0Nrv4YRo92UlNtT9oEa",
+        "emailId": "club@gmail.com",
+        "status": 1,
+        "default": 1,
+        "userCode": 2 ,
+        "registerCode": 2
+    }
+]
