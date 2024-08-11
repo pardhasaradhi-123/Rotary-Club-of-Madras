@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./addClub.css";
-import "./exportAdminDashboardProject.css";
+import "./exportClubDashboardProject.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-export default function ExportProject() {
+export default function ExporExportClubDashboardProjecttProject() {
+  const navigate = useNavigate();
   const { _id } = useParams();
   const location = useLocation();
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     projectName: "",
     projectChairName: "",
@@ -45,6 +45,100 @@ export default function ExportProject() {
     venue: "",
   });
 
+  const formFields = [
+    {
+      name: "projectName",
+      label: "Project Name",
+      type: "text",
+      placeholder: "Enter project name",
+    },
+    {
+      name: "projectChairName",
+      label: "Project Chairman Name",
+      type: "text",
+      placeholder: "Enter project chairman name",
+    },
+    {
+      name: "projectSecretaryName",
+      label: "Project Secretary Name",
+      type: "text",
+      placeholder: "Enter project secretary name",
+    },
+    {
+      name: "hostClubName",
+      label: "Host Club Name",
+      type: "text",
+      placeholder: "Enter host club name",
+    },
+    {
+      name: "coHostClubName",
+      label: "Co-Host Club Name",
+      type: "text",
+      placeholder: "Enter co-host club name",
+    },
+    {
+      name: "projectAvenue",
+      label: "Project Avenue",
+      type: "text",
+      placeholder: "Enter project avenue",
+    },
+    {
+      name: "noOfBenifeshiers",
+      label: "No. of Beneficiaries",
+      type: "text",
+      placeholder: "Enter number of beneficiaries",
+    },
+    {
+      name: "speaker",
+      label: "Speaker/Guests",
+      type: "text",
+      placeholder: "Enter speaker/guests",
+    },
+    {
+      name: "totalAmountSpent",
+      label: "Total Amount Spent",
+      type: "text",
+      placeholder: "Enter total amount spent",
+    },
+    {
+      name: "projectPhotoLink",
+      label: "Project Photo Link",
+      type: "text",
+      placeholder: "Enter project photo link",
+    },
+    {
+      name: "projectDescription",
+      label: "Project Description",
+      type: "textarea",
+      placeholder: "Enter project description",
+    },
+    {
+      name: "presidentName",
+      label: "President Name",
+      type: "text",
+      placeholder: "Enter president name",
+    },
+    {
+      name: "secretaryName",
+      label: "Secretary Name",
+      type: "text",
+      placeholder: "Enter secretary name",
+    },
+    {
+      name: "projectMonth",
+      label: "Project Month",
+      type: "month",
+      placeholder: "Enter project start month",
+    },
+    {
+      name: "totalManHourSpent",
+      label: "Total Man Hour Spent",
+      type: "text",
+      placeholder: "Enter project end month",
+    },
+    { name: "venue", label: "Venue", type: "text", placeholder: "Enter venue" },
+  ];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -57,11 +151,9 @@ export default function ExportProject() {
     let valid = true;
     const newErrors = {};
 
-    formFields.forEach(({ name }) => {
-      if (formData[name] === "") {
-        newErrors[name] = `${name
-          .replace(/([A-Z])/g, " $1")
-          .toLowerCase()} is required`;
+    formFields.forEach((field) => {
+      if (!formData[field.name]) {
+        newErrors[field.name] = `${field.label} is required`;
         valid = false;
       }
     });
@@ -73,107 +165,13 @@ export default function ExportProject() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (validateForm()) {
+      // Perform form submission here
       console.log(formData);
-      // Add form submission logic here
+      // Replace console.log with your form submission logic (e.g., API call)
     } else {
       console.log("Form is invalid. Please check the fields.");
     }
   };
-
-  const formFields = [
-    {
-      label: "Project Name",
-      name: "projectName",
-      type: "text",
-      placeholder: "Enter project name",
-    },
-    {
-      label: "Project Chairman Name",
-      name: "projectChairName",
-      type: "text",
-      placeholder: "Enter project chairman name",
-    },
-    {
-      label: "Project Secretary Name",
-      name: "projectSecretaryName",
-      type: "text",
-      placeholder: "Enter project secretary name",
-    },
-    {
-      label: "Host Club Name",
-      name: "hostClubName",
-      type: "text",
-      placeholder: "Enter host club name",
-    },
-    {
-      label: "Co-Host Club Name",
-      name: "coHostClubName",
-      type: "text",
-      placeholder: "Enter co-host club name",
-    },
-    {
-      label: "Project Avenue",
-      name: "projectAvenue",
-      type: "text",
-      placeholder: "Enter project avenue",
-    },
-    {
-      label: "No. of Beneficiaries",
-      name: "noOfBenifeshiers",
-      type: "text",
-      placeholder: "Enter number of beneficiaries",
-    },
-    {
-      label: "Speaker/Guests",
-      name: "speaker",
-      type: "text",
-      placeholder: "Enter speaker/guests",
-    },
-    {
-      label: "Total Amount Spent",
-      name: "totalAmountSpent",
-      type: "text",
-      placeholder: "Enter total amount spent",
-    },
-    {
-      label: "President Name",
-      name: "presidentName",
-      type: "text",
-      placeholder: "Enter president name",
-    },
-    {
-      label: "Secretary Name",
-      name: "secretaryName",
-      type: "text",
-      placeholder: "Enter secretary name",
-    },
-    {
-      label: "Project Month",
-      name: "projectMonth",
-      type: "month",
-      placeholder: "Enter month",
-    },
-    {
-      label: "Total Man Hour Spent",
-      name: "totalManHourSpent",
-      type: "text",
-      placeholder: "Enter man hour spent",
-    },
-    { label: "Venue", name: "venue", type: "text", placeholder: "Enter venue" },
-    {
-      label: "Project Photo (Link)",
-      name: "projectPhotoLink",
-      type: "text",
-      placeholder: "Enter project photo link",
-    },
-    {
-      label: "Project Description",
-      name: "projectDescription",
-      type: "textarea",
-      placeholder: "Enter project description",
-    },
-  ];
-
   const fetchProjectDetails = async () => {
     try {
       const response = await fetch(
@@ -189,7 +187,6 @@ export default function ExportProject() {
   useEffect(() => {
     fetchProjectDetails();
   }, [_id]);
-
   return (
     <React.Fragment>
       <div className="form-container">
@@ -197,7 +194,7 @@ export default function ExportProject() {
           <div className="form-top">
             <div className="form-left">
               <h1>Project Name</h1>
-              <h4>Title goes here</h4>
+              <h4>Titles go here</h4>
             </div>
             <div className="form-right">
               <span
@@ -208,35 +205,36 @@ export default function ExportProject() {
               </span>
               <span
                 className="material-symbols-outlined"
-                onClick={() => navigate("/adminDashboard")}
+                onClick={() => {
+                  navigate("/project");
+                }}
               >
                 close
               </span>
             </div>
           </div>
           <div className="export">
-            {formFields.map(({ label, name, type, placeholder }) => (
-              <div className="input" key={name}>
-                <label htmlFor={name}>{label}:</label>
-                {type === "textarea" ? (
+            {formFields.map((field) => (
+              <div className="input" key={field.name}>
+                <label htmlFor={field.name}>{field.label}:</label>
+                {field.type === "textarea" ? (
                   <textarea
-                    name={name}
-                    id={name}
-                    value={formData[name]}
+                    name={field.name}
+                    value={formData[field.name]}
                     onChange={handleChange}
-                    placeholder={placeholder}
-                  ></textarea>
+                    placeholder={field.placeholder}
+                  />
                 ) : (
                   <input
-                    type={type}
-                    name={name}
-                    value={formData[name]}
+                    type={field.type}
+                    name={field.name}
+                    value={formData[field.name]}
                     onChange={handleChange}
-                    placeholder={placeholder}
+                    placeholder={field.placeholder}
                   />
                 )}
-                {formErrors[name] && (
-                  <span style={{ color: "red" }}>{formErrors[name]}</span>
+                {formErrors[field.name] && (
+                  <span style={{ color: "red" }}>{formErrors[field.name]}</span>
                 )}
               </div>
             ))}

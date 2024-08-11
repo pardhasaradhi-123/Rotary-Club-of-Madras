@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./addClub.css";
-import "./exportProject.css";
+import "./exportClubDashboardProject.css";
 import { useNavigate } from "react-router-dom";
 
 export default function AddProject() {

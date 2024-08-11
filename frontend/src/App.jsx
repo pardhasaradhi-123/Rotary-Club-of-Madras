@@ -18,6 +18,8 @@ import UpdateClubDashboardProject from "./Components/ClubDashboard/UpdateClubDas
 import UpdateAdminDashboardProject from "./Components/AdminDashboard/UpdateAdminDashboardProject";
 import AddMember from "./Components/ClubDashboard/AddMember";
 import UpdateMember from "./Components/ClubDashboard/UpdateMember";
+import ExporExportClubDashboardProjecttProject from "./Components/ClubDashboard/ExportClubDashboardProject";
+("./Components/ClubDashboard/ExportClubDashboardProject");
 
 const App = () => {
   return (
@@ -41,21 +43,25 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/addclub" element={<AddClub />} />
         <Route
-          path="/update-dashboard-project/:clubName"
+          path="/update-dashboard-project/:projectName"
           element={<UpdateAdminDashboardProject />}
         />
         <Route path="/updateclub/:clubName" element={<UpdateClub />} />
         <Route
-          path="/exportAdmindashboardProject/:clubName"
+          path="/exportAdmindashboardProject/:projectName"
           element={<ExportProject />}
         />
         <Route path="/addproject" element={<AddProject />} />
         <Route
-          path="/updateClubdashboardProject"
+          path="/updateClubdashboardProject/:projectName"
           element={<UpdateClubDashboardProject />}
         />
         <Route path="/add-member" element={<AddMember />} />
         <Route path="/updateMember" element={<UpdateMember />} />
+        <Route
+          path="/export-clubDashboard-project/:projectName"
+          element={<ExporExportClubDashboardProjecttProject />}
+        />
       </Routes>
     </React.Fragment>
   );

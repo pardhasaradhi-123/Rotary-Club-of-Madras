@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./clubDashboard.css";
 import Aside from "./Aside";
-import DeleteProject from "./DeleteProject";
-import ExportProject from "./ExportProject";
+
 import "./navbar.css";
 import { useNavigate } from "react-router-dom";
 import { ADMIN_EMAIL } from "../../constant";
 
 export default function Project() {
-  const [deleteProject, setDeleteProject] = useState(false);
-  const [exportProject, setExportProject] = useState(false);
   const [projectDetails, setProjectDetails] = useState([]);
   const [majoreData, setMajoreData] = useState([]);
 
@@ -62,6 +59,18 @@ export default function Project() {
   const secretaryName =
     majoreData.length > 0 ? majoreData[0].secretaryName : "N/A";
 
+  const handleUpdate = (club) => {
+    navigate(`/updateClubdashboardProject/${club.projectName}`, {
+      state: { club },
+    });
+  };
+
+  const handleExport = (club) => {
+    navigate(`/export-clubDashboard-project/${club.projectName}`, {
+      state: { club },
+    });
+  };
+
   return (
     <React.Fragment>
       <nav className="navbar">
@@ -112,8 +121,8 @@ export default function Project() {
             <thead>
               <tr>
                 <th>project name </th>
-                <th>start month</th>
-                <th>end month</th>
+                <th>project month</th>
+                <th>avenue</th>
                 <th>
                   <input type="month" name="" id="" placeholder="enter month" />
                 </th>
@@ -135,24 +144,24 @@ export default function Project() {
             </thead>
             <tbody>
               {projectDetails.map((eachDetail) => {
-                const { _id, projectName, projectStartMonth, projectEndMonth } =
+                const { _id, projectName, projectMonth, projectAvenue } =
                   eachDetail;
                 return (
                   <tr key={_id}>
                     <td
                       onClick={() => {
-                        setExportProject(true);
+                        handleExport(eachDetail);
                       }}
                     >
                       {projectName}
                     </td>
-                    <td>{projectStartMonth}</td>
-                    <td>{projectEndMonth}</td>
+                    <td>{projectMonth}</td>
+                    <td>{projectAvenue}</td>
                     <td>
                       <button
                         className="update"
                         onClick={() => {
-                          navigate("/updateClubdashboardProject");
+                          handleUpdate(eachDetail);
                         }}
                       >
                         update
@@ -175,12 +184,6 @@ export default function Project() {
           </table>
         </div>
       </div>
-      {deleteProject && (
-        <DeleteProject onClose={() => setDeleteProject(false)} />
-      )}
-      {exportProject && (
-        <ExportProject onClose={() => setExportProject(false)} />
-      )}
     </React.Fragment>
   );
 }

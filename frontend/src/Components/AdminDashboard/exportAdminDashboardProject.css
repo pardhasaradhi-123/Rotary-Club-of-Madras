@@ -1,10 +1,10 @@
 /* Form Styles */
 
 form {
-  /* Instead of using translateY, use margin or padding to center the form vertically */
-  margin: 5vh auto; /* 5vh is 5% of the viewport height */
-  max-width: 80%; /* adjust the width to your liking */
+  /* Replaced transform: translateY(-5%) with margin-top: 5vh */
+  margin-top: 5vh;
   padding: 25px;
+  box-sizing: border-box; /* added box-sizing to include padding in width calculation */
 }
 
 /* Form Top Styles */
@@ -28,11 +28,12 @@ form {
 form .export {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 }
 
 /* Input Section Styles */
 
-.input-section .input textarea {
+.input textarea {
   padding: 10px;
   background: #f1f1f1e8;
   width: 100%;
@@ -41,8 +42,8 @@ form .export {
   border: none;
   min-height: 100px;
   max-height: 150px;
-  overflow-y: hidden;
-  resize: vertical; /* allow textarea to be resized vertically */
+
+  resize: vertical; /* added resize: vertical to allow textarea to be resized vertically */
 }
 
 /* Responsive Design */
@@ -50,8 +51,8 @@ form .export {
 /* For smaller screens (e.g., mobile devices) */
 @media only screen and (max-width: 768px) {
   form {
-    margin: 10vh auto; /* increase margin for smaller screens */
-    max-width: 100%; /* adjust width for smaller screens */
+    margin-top: 10vh; /* increase margin-top for smaller screens */
+    padding: 15px; /* reduce padding for smaller screens */
   }
   .form-top .form-right span {
     font-size: 20px; /* reduce font size for smaller screens */
@@ -65,8 +66,8 @@ form .export {
 /* For larger screens (e.g., desktop devices) */
 @media only screen and (min-width: 1024px) {
   form {
-    margin: 2vh auto; /* decrease margin for larger screens */
-    max-width: 100%; /* adjust width for larger screens */
+    margin-top: 2vh; /* decrease margin-top for larger screens */
+    padding: 30px; /* increase padding for larger screens */
   }
   .form-top .form-right span {
     font-size: 30px; /* increase font size for larger screens */

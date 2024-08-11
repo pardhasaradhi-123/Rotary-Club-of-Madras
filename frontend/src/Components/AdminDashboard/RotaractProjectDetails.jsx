@@ -54,13 +54,18 @@ export default function RotaractProjectDetails() {
     majoreData.length > 0 ? majoreData[0].secretaryName : "N/A";
 
   const handleExport = (club) => {
-    navigate(`/exportAdmindashboardProject/${club.clubName}`, {
-      state: { club },
-    });
+    navigate(
+      `/exportAdmindashboardProject/${club.clubName}/${club.projectName}`,
+      {
+        state: { club },
+      }
+    );
   };
 
   const handleUpdate = (club) => {
-    navigate(`/update-dashboard-project/${club.clubName}`, { state: { club } });
+    navigate(`/update-dashboard-project/${club.clubName}/${club.projectName}`, {
+      state: { club },
+    });
   };
   return (
     <React.Fragment>

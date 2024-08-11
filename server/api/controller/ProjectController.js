@@ -26,6 +26,7 @@ exports.saveProject = async (req, res, next) => {
     venue,
     clubEmail,
     clubType,
+    
   } = req.body;
 
   const newProject = new Project({

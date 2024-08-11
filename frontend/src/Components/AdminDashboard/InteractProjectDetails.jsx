@@ -59,7 +59,9 @@ export default function InteractProjectDetails() {
   };
 
   const handleUpdate = (club) => {
-    navigate(`/update-dashboard-project/${club.clubName}`, { state: { club } });
+    navigate(`/update-dashboard-project/${club.projectName}`, {
+      state: { club },
+    });
   };
 
   return (
