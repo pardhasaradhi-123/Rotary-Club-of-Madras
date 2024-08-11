@@ -3,6 +3,7 @@ import "./adminDashboard.css";
 import Aside from "./Aside";
 import "./navbar.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function InteractProjectDetails() {
   const { clubName } = useParams();
@@ -162,6 +163,16 @@ export default function InteractProjectDetails() {
                         className="delete"
                         onClick={() => {
                           handleDeleteClub(_id);
+                          toast.error(`${projectName} deleted!`, {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                          });
                         }}
                       >
                         delete

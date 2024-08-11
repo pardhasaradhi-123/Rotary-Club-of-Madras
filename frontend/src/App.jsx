@@ -20,6 +20,8 @@ import AddMember from "./Components/ClubDashboard/AddMember";
 import UpdateMember from "./Components/ClubDashboard/UpdateMember";
 import ExporExportClubDashboardProjecttProject from "./Components/ClubDashboard/ExportClubDashboardProject";
 ("./Components/ClubDashboard/ExportClubDashboardProject");
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
@@ -63,6 +65,17 @@ const App = () => {
           element={<ExporExportClubDashboardProjecttProject />}
         />
       </Routes>
+      <ToastContainer
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </React.Fragment>
   );
 };

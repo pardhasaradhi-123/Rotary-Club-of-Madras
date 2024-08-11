@@ -3,6 +3,7 @@ import "./adminDashboard.css";
 import Aside from "./Aside";
 import "./navbar.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function RotaractProjectDetails() {
   const { clubName } = useParams();
@@ -37,7 +38,7 @@ export default function RotaractProjectDetails() {
 
   const handleDeleteClub = async (id) => {
     try {
-      await fetch(`http://localhost:3005/api/v1/club/deleteClub/${id}`, {
+      await fetch(`http://localhost:3005/api/v1/projects/deleteClub/${id}`, {
         method: "DELETE",
       });
       // Refresh data by fetching overview details and details report again
@@ -164,6 +165,16 @@ export default function RotaractProjectDetails() {
                         className="delete"
                         onClick={() => {
                           handleDeleteClub(_id);
+                          toast.error(`${projectName} deleted!`, {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                          });
                         }}
                       >
                         delete

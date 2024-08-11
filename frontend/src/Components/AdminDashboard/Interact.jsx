@@ -3,6 +3,7 @@ import "./adminDashboard.css";
 import Aside from "./Aside";
 import "./navbar.css";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Interact() {
   const [interactDetailsReport, setInteractDetailsReport] = useState([]);
@@ -114,6 +115,16 @@ export default function Interact() {
                         className="delete"
                         onClick={() => {
                           handleDeleteClub(_id);
+                          toast.error(`${clubName} deleted!`, {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                          });
                         }}
                       >
                         delete

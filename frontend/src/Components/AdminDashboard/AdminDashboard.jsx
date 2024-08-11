@@ -3,6 +3,7 @@ import "./adminDashboard.css";
 import Aside from "./Aside";
 import "./navbar.css";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function AdminDashboard() {
   const [detailsReport, setDetailsReport] = useState([]);
@@ -184,7 +185,19 @@ export default function AdminDashboard() {
                       <td>
                         <button
                           className="delete"
-                          onClick={() => handleDeleteClub(_id)}
+                          onClick={() => {
+                            handleDeleteClub(_id);
+                            toast.error(`${clubName} deleted!`, {
+                              position: "top-right",
+                              autoClose: 2000,
+                              hideProgressBar: false,
+                              closeOnClick: true,
+                              pauseOnHover: true,
+                              draggable: true,
+                              progress: undefined,
+                              theme: "light",
+                            });
+                          }}
                         >
                           delete
                         </button>

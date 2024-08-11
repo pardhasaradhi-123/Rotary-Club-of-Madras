@@ -4,6 +4,8 @@ import "./contact.css";
 import "./navbar.css";
 import "./clubDashboard.css";
 import Aside from "./Aside";
+import Lottie from "lottie-react";
+import contactAnimation from "../../../public/assets/contactUsAnimation.json";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -57,7 +59,7 @@ const Contact = () => {
         <div className="contact-form-container">
           <div className="contact-form">
             {submitted ? (
-              <div>Thank you for your message!</div>
+              <Lottie animationData={contactAnimation} />
             ) : (
               <form onSubmit={handleSubmit}>
                 <div className="heading">

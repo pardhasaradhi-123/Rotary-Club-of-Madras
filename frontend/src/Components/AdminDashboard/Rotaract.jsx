@@ -3,6 +3,7 @@ import "./adminDashboard.css";
 import Aside from "./Aside";
 import { useNavigate } from "react-router-dom";
 import "./navbar.css";
+import { toast } from "react-toastify";
 
 export default function Rotaract() {
   const [rotaractDetailsReport, setRotaractDetailsReport] = useState([]);
@@ -113,6 +114,16 @@ export default function Rotaract() {
                         className="delete"
                         onClick={() => {
                           handleDeleteClub(_id);
+                          toast.error(`${clubName} deleted!`, {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                          });
                         }}
                       >
                         delete
