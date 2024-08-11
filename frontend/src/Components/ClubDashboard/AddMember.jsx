@@ -13,14 +13,6 @@ export default function AddMember() {
     mobileNum: "",
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
   const [formErrors, setFormErrors] = useState({
     name: "",
     id: "",
@@ -29,45 +21,56 @@ export default function AddMember() {
     mobileNum: "",
   });
 
+  const fields = [
+    { label: "Name", name: "name", type: "text", placeholder: "Enter name" },
+    { label: "ID", name: "id", type: "text", placeholder: "Enter ID" },
+    {
+      label: "Designation",
+      name: "designation",
+      type: "text",
+      placeholder: "Enter designation",
+    },
+    {
+      label: "Email Address",
+      name: "email",
+      type: "email",
+      placeholder: "Enter email",
+    },
+    {
+      label: "Mobile Number",
+      name: "mobileNum",
+      type: "text",
+      placeholder: "Enter mobile number",
+    },
+  ];
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   const validateForm = () => {
     let valid = true;
-    const newErrors = {
-      name: "",
-      id: "",
-      designation: "",
-      email: "",
-      mobileNum: "",
-    };
+    const newErrors = {};
 
-    // Name validation
-    if (formData.name === "") {
-      newErrors.name = "Name is required";
-      valid = false;
-    }
+    fields.forEach((field) => {
+      if (formData[field.name] === "") {
+        newErrors[field.name] = `${field.label} is required`;
+        valid = false;
+      }
 
-    // ID validation
-    if (formData.id === "") {
-      newErrors.id = "ID is required";
-      valid = false;
-    }
-
-    // Designation validation
-    if (formData.designation === "") {
-      newErrors.designation = "Designation is required";
-      valid = false;
-    }
-
-    // Email validation
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Invalid email address";
-      valid = false;
-    }
-
-    // Mobile number validation
-    if (formData.mobileNum === "") {
-      newErrors.mobileNum = "Mobile number is required";
-      valid = false;
-    }
+      if (
+        field.name === "email" &&
+        formData.email !== "" &&
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+      ) {
+        newErrors.email = "Invalid email address";
+        valid = false;
+      }
+    });
 
     setFormErrors(newErrors);
     return valid;
@@ -76,14 +79,18 @@ export default function AddMember() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (validateForm()) {
+      const clubEmail = localStorage.getItem("email");
       try {
-        const response = await fetch("http://localhost:3005/api/v1/member/save", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
+        const response = await fetch(
+          "http://localhost:3005/api/v1/member/save",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ...formData, clubEmail }),
+          }
+        );
         if (response.ok) {
           console.log("Form submitted successfully", formData);
           navigate("/club-member");
@@ -116,71 +123,21 @@ export default function AddMember() {
             </div>
           </div>
           <div className="input-section">
-            <div className="input">
-              <label htmlFor="name">Name:</label>
-              <input
-                type="text"
-                name="name"
-                placeholder="Enter name"
-                value={formData.name}
-                onChange={handleChange}
-              />
-              {formErrors.name && (
-                <span style={{ color: "red" }}>{formErrors.name}</span>
-              )}
-            </div>
-            <div className="input">
-              <label htmlFor="id">ID:</label>
-              <input
-                type="text"
-                name="id"
-                placeholder="Enter ID"
-                value={formData.id}
-                onChange={handleChange}
-              />
-              {formErrors.id && (
-                <span style={{ color: "red" }}>{formErrors.id}</span>
-              )}
-            </div>
-            <div className="input">
-              <label htmlFor="designation">Designation:</label>
-              <input
-                type="text"
-                name="designation"
-                placeholder="Enter designation"
-                value={formData.designation}
-                onChange={handleChange}
-              />
-              {formErrors.designation && (
-                <span style={{ color: "red" }}>{formErrors.designation}</span>
-              )}
-            </div>
-            <div className="input">
-              <label htmlFor="email">Email Address:</label>
-              <input
-                type="email"
-                name="email"
-                placeholder="Enter email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-              {formErrors.email && (
-                <span style={{ color: "red" }}>{formErrors.email}</span>
-              )}
-            </div>
-            <div className="input">
-              <label htmlFor="mobileNum">Mobile Number:</label>
-              <input
-                type="text"
-                name="mobileNum"
-                placeholder="Enter mobile number"
-                value={formData.mobileNum}
-                onChange={handleChange}
-              />
-              {formErrors.mobileNum && (
-                <span style={{ color: "red" }}>{formErrors.mobileNum}</span>
-              )}
-            </div>
+            {fields.map((field) => (
+              <div className="input" key={field.name}>
+                <label htmlFor={field.name}>{field.label}:</label>
+                <input
+                  type={field.type}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                />
+                {formErrors[field.name] && (
+                  <span style={{ color: "red" }}>{formErrors[field.name]}</span>
+                )}
+              </div>
+            ))}
           </div>
           <div className="btn">
             <button

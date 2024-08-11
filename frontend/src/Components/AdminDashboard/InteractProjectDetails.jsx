@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./adminDashboard.css";
 import Aside from "./Aside";
-import DeleteProject from "./DeleteProject";
 import "./navbar.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 export default function InteractProjectDetails() {
   const { clubName } = useParams();
-  const [deleteProject, setDeleteProject] = useState(false);
   const [projectDetails, setProjectDetails] = useState([]);
   const [majoreData, setMajoreData] = useState([]);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Fetch data from the API
   const fetchProjectDetails = async () => {
@@ -20,8 +19,13 @@ export default function InteractProjectDetails() {
         "http://localhost:3005/api/v1/projects/getAll"
       ); // Replace with your API endpoint
       const data = await response.json();
-      setProjectDetails(data);
-      setMajoreData(data);
+      const clubEmail = location.state.club.email;
+      let clubProjects = data.filter(
+        (project) => project.clubEmail === clubEmail
+      );
+
+      setProjectDetails(clubProjects);
+      setMajoreData(clubProjects);
     } catch (error) {
       console.error("Error fetching project details:", error);
     }
@@ -41,6 +45,21 @@ export default function InteractProjectDetails() {
     } catch (error) {
       console.error("Error deleting club:", error);
     }
+  };
+
+  // Get president name and secretary name from the first index of majoreData
+  const presidentName =
+    majoreData.length > 0 ? majoreData[0].presidentName : "N/A";
+  const secretaryName =
+    majoreData.length > 0 ? majoreData[0].secretaryName : "N/A";
+  const handleExport = (club) => {
+    navigate(`/exportAdmindashboardProject/${club.clubName}`, {
+      state: { club },
+    });
+  };
+
+  const handleUpdate = (club) => {
+    navigate(`/update-dashboard-project/${club.clubName}`, { state: { club } });
   };
 
   return (
@@ -65,10 +84,10 @@ export default function InteractProjectDetails() {
               <div className="majore-left">
                 <h1>
                   <span>president:</span>
-                  {majoreData.presidentName}
+                  {presidentName}
                 </h1>
                 <h1>
-                  <span>secretary:</span> {majoreData.secretaryName}
+                  <span>secretary:</span> {secretaryName}
                 </h1>
               </div>
               <div className="majore-right">
@@ -119,7 +138,7 @@ export default function InteractProjectDetails() {
                   <tr key={_id}>
                     <td
                       onClick={() => {
-                        navigate("/exportAdmindashboardProject");
+                        handleExport(eachDetail);
                       }}
                     >
                       {projectName}
@@ -130,7 +149,7 @@ export default function InteractProjectDetails() {
                       <button
                         className="update"
                         onClick={() => {
-                          navigate("/update-dashboard-project");
+                          handleUpdate(eachDetail);
                         }}
                       >
                         update
@@ -153,9 +172,6 @@ export default function InteractProjectDetails() {
           </table>
         </div>
       </div>
-      {deleteProject && (
-        <DeleteProject onClose={() => setDeleteProject(false)} />
-      )}
     </React.Fragment>
   );
 }

@@ -132,7 +132,7 @@ export default function UpdateClubDashboardProject() {
     }
 
     // project end month validation
-    if (formData.projectEndMonth === "") {
+    if (formData.totalManHourSpent === "") {
       newErrors.totalManHourSpent = "total man hours spent is required";
       valid = false;
     }

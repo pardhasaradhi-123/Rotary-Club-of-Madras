@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./adminDashboard.css";
 import Aside from "./Aside";
-import DeleteClub from "./DeleteClub";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./navbar.css";
 
 export default function Rotaract() {
-  const [deleteClub, setDeleteClub] = useState(false);
   const [rotaractDetailsReport, setRotaractDetailsReport] = useState([]);
-
+  const navigate = useNavigate();
   const fetchDetailsReport = async () => {
     try {
       const response = await fetch("http://localhost:3005/api/v1/club/getAll"); // Replace with your API endpoint
@@ -35,6 +33,16 @@ export default function Rotaract() {
     }
   };
 
+  const redirect = (club) => {
+    const { clubName } = club;
+    navigate(`/rotaract/rotaract-project-full-details/${clubName}`, {
+      state: { club },
+    });
+  };
+
+  const handleUpdate = (club) => {
+    navigate(`/updateclub/${club.clubName}`, { state: { club } });
+  };
   return (
     <React.Fragment>
       <nav className="navbar">
@@ -84,18 +92,22 @@ export default function Rotaract() {
                 const { _id, clubName, clubID, month } = eachDetail;
                 return (
                   <tr key={_id}>
-                    <Link
-                      to={`/rotaract/rotaract-project-full-details/${clubName}`}
-                    >
-                      <td>{clubName}</td>
-                    </Link>
+                    <td onClick={() => redirect(eachDetail)}>{clubName}</td>
+
                     <td>{clubID}</td>
                     <td>{month}</td>
-                    <Link to={`/updateclub/${clubName}`}>
-                      <td>
-                        <button className="update">update</button>
-                      </td>
-                    </Link>
+
+                    <td>
+                      <button
+                        className="update"
+                        onClick={() => {
+                          handleUpdate(eachDetail);
+                        }}
+                      >
+                        update
+                      </button>
+                    </td>
+
                     <td>
                       <button
                         className="delete"
@@ -113,7 +125,6 @@ export default function Rotaract() {
           </table>
         </div>
       </div>
-      {deleteClub && <DeleteClub onClose={() => setDeleteClub(false)} />}
     </React.Fragment>
   );
 }

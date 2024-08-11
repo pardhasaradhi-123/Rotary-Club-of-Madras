@@ -41,12 +41,12 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/addclub" element={<AddClub />} />
         <Route
-          path="/update-dashboard-project"
+          path="/update-dashboard-project/:clubName"
           element={<UpdateAdminDashboardProject />}
         />
         <Route path="/updateclub/:clubName" element={<UpdateClub />} />
         <Route
-          path="/exportAdmindashboardProject"
+          path="/exportAdmindashboardProject/:clubName"
           element={<ExportProject />}
         />
         <Route path="/addproject" element={<AddProject />} />

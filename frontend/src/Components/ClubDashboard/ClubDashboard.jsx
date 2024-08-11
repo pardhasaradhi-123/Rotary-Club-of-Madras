@@ -2,28 +2,60 @@ import React, { useState, useEffect } from "react";
 import Aside from "./Aside";
 import "./clubDashboard.css";
 import { useNavigate } from "react-router-dom";
+import { ADMIN_EMAIL } from "../../constant";
 
 export default function ClubDashboard() {
-  const [majoreData, setMajoreData] = useState([]);
+  const [majoreProjectData, setMajoreProjectData] = useState([]);
+  const [majoreMmeberData, setMajoreMemberData] = useState([]);
 
   const navigate = useNavigate();
+  // Fetch data from the API
+  const fetchProjectDetails = async () => {
+    try {
+      const projectResponse = await fetch(
+        "http://localhost:3005/api/v1/projects/getAll"
+      ); // Replace with your API endpoint
+      const projectData = await projectResponse.json();
+      const currentClubEmail = localStorage.getItem("email");
+      let clubProjects = [];
+      if (currentClubEmail !== ADMIN_EMAIL) {
+        clubProjects = projectData.filter(
+          (project) => project.clubEmail === currentClubEmail
+        );
+      } else {
+        clubProjects = projectData;
+      }
+      setMajoreProjectData(clubProjects);
+    } catch (error) {
+      console.error("Error fetching project details:", error);
+    }
+  };
+
+  const fetchMembersData = async () => {
+    try {
+      const memberResponse = await fetch(
+        "http://localhost:3005/api/v1/member/getAll"
+      );
+      const memberData = await memberResponse.json();
+      const currentClubEmail = localStorage.getItem("email");
+      let clubMembers;
+      if (currentClubEmail !== ADMIN_EMAIL) {
+        clubMembers = memberData.filter(
+          (project) => project.clubEmail === currentClubEmail
+        );
+      } else {
+        clubMembers = memberData;
+      }
+
+      setMajoreMemberData(clubMembers);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    // Fetch data from the API
-    const fetchProjectDetails = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:3005/api/v1/projects/getAll"
-        ); // Replace with your API endpoint
-        const data = await response.json();
-        console.log(data);
-        setMajoreData(data);
-      } catch (error) {
-        console.error("Error fetching project details:", error);
-      }
-    };
-
     fetchProjectDetails();
+    fetchMembersData();
   }, []);
 
   return (
@@ -46,12 +78,12 @@ export default function ClubDashboard() {
           >
             <div className="overDetails" style={{ width: "350px" }}>
               <span className="material-symbols-outlined">inventory</span>
-              <h1>{majoreData.length}</h1>
+              <h1>{majoreProjectData.length}</h1>
               <h4>projects</h4>
             </div>
             <div className="overDetails" style={{ width: "350px" }}>
               <span className="material-symbols-outlined">groups</span>
-              <h1>26</h1>
+              <h1>{majoreMmeberData.length}</h1>
               <h4>total club members</h4>
             </div>
           </div>

@@ -1,6 +1,6 @@
 const Clubs = require("../model/club");
 const dateTime = require("node-datetime");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 const saveClub = async (req, res) => {
   const dt = dateTime.create();
@@ -40,6 +40,7 @@ const saveClub = async (req, res) => {
 async function getAllClub(query) {
   return await Clubs.find(query).where("isDeleted").ne(true).exec();
 }
+
 async function deleteClub(req) {
   const dt = dateTime.create();
   const formatted = dt.format("Y-m-d H:M:S");

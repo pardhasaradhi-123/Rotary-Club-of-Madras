@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./adminDashboard.css";
 import Aside from "./Aside";
-import DeleteClub from "./DeleteClub";
 import "./navbar.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Interact() {
-  const [deleteClub, setDeleteClub] = useState(false);
   const [interactDetailsReport, setInteractDetailsReport] = useState([]);
+  const navigate = useNavigate();
 
   const fetchDetailsReport = async () => {
     try {
@@ -35,6 +34,15 @@ export default function Interact() {
     }
   };
 
+  const redirect = (club) => {
+    const { clubName } = club;
+    navigate(`/interact/interact-project-full-details/${clubName}`, {
+      state: { club },
+    });
+  };
+  const handleUpdate = (club) => {
+    navigate(`/updateclub/${club.clubName}`, { state: { club } });
+  };
   return (
     <React.Fragment>
       <nav className="navbar">
@@ -86,18 +94,21 @@ export default function Interact() {
                 const { _id, clubName, clubID, month } = eachDetail;
                 return (
                   <tr key={_id}>
-                    <Link
-                      to={`/interact/interact-project-full-details/${clubName}`}
-                    >
-                      <td>{clubName}</td>
-                    </Link>
+                    <td onClick={() => redirect(eachDetail)}>{clubName}</td>
                     <td>{clubID}</td>
                     <td>{month}</td>
-                    <Link to={`/updateclub/${clubName}`}>
-                      <td>
-                        <button className="update">update</button>
-                      </td>
-                    </Link>
+
+                    <td>
+                      <button
+                        className="update"
+                        onClick={() => {
+                          handleUpdate(eachDetail);
+                        }}
+                      >
+                        update
+                      </button>
+                    </td>
+
                     <td>
                       <button
                         className="delete"
@@ -115,7 +126,6 @@ export default function Interact() {
           </table>
         </div>
       </div>
-      {deleteClub && <DeleteClub onClose={() => setDeleteClub(false)} />}
     </React.Fragment>
   );
 }

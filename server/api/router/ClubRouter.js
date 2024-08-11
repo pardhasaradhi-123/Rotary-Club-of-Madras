@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post("/save", saveClub);
 
-router.get("/getAll", getAllClub);
+router.get("/getAll/", getAllClub);
 
 router.delete("/deleteClub/:id", deleteClub);
 

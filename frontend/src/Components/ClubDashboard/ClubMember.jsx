@@ -2,22 +2,40 @@ import React, { useEffect, useState } from "react";
 import "./clubDashboard.css";
 import Aside from "./Aside";
 import "./navbar.css";
-import DeleteMember from "./DeleteMember";
 import { useNavigate } from "react-router-dom";
+import { ADMIN_EMAIL } from "../../constant";
 
 export default function ClubMember() {
   const navigate = useNavigate();
   const [member, setMember] = useState([]);
 
-  const [deleteMember, setDeleteMember] = useState(false);
   const fetchMembersData = async () => {
     const response = await fetch("http://localhost:3005/api/v1/member/getAll");
     const data = await response.json();
-    setMember(data);
+    const currentClubEmail = localStorage.getItem("email");
+    let clubMembers = [];
+    if (currentClubEmail !== ADMIN_EMAIL) {
+      clubMembers = data.filter(
+        (project) => project.clubEmail === currentClubEmail
+      );
+    } else {
+      clubMembers = data;
+    }
+    setMember(clubMembers);
   };
   useEffect(() => {
     fetchMembersData();
   }, []);
+  const handleDeleteMember = async (id) => {
+    try {
+      await fetch(`http://localhost:3005/api/v1/member/deleteClub/${id}`, {
+        method: "DELETE",
+      });
+      fetchMembersData();
+    } catch (error) {
+      console.error("Error deleting club:", error);
+    }
+  };
   return (
     <React.Fragment>
       <nav className="navbar">
@@ -62,7 +80,7 @@ export default function ClubMember() {
                   <span className="material-symbols-outlined">diversity_3</span>
                 </div>
                 <div className="bottom">
-                  <h1>34</h1>
+                  <h1>{member.length}</h1>
                   <p>total members</p>
                 </div>
               </div>
@@ -112,7 +130,12 @@ export default function ClubMember() {
                       </button>
                     </td>
                     <td>
-                      <button className="delete" onClick={() => {}}>
+                      <button
+                        className="delete"
+                        onClick={() => {
+                          handleDeleteMember(_id);
+                        }}
+                      >
                         delete
                       </button>
                     </td>
@@ -123,7 +146,6 @@ export default function ClubMember() {
           </table>
         </div>
       </div>
-      {deleteMember && <DeleteMember onClose={() => setDeleteMember(false)} />}
     </React.Fragment>
   );
 }

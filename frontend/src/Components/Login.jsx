@@ -18,11 +18,13 @@ export default function Login() {
         body: JSON.stringify({ username, password }),
       });
       console.log(response, "ssssssss");
+      localStorage.setItem("email", username);
       if (response.ok) {
         console.log();
         const data = await response.json();
         const role = data.result.user.role.role;
-    
+        console.log("oooooooooooooooooooooooooooooooo");
+
         if (role === "ADMIN") {
           navigate("/adminDashboard");
         } else if (role === "CLUB") {
@@ -33,10 +35,10 @@ export default function Login() {
         }
       } else {
         // navigate("/clubDashboard");
-        alert("Invalid credentials"); 
+        alert("Invalid credentials");
       }
     } catch (error) {
-      console.error("Error during sign in:", error);
+      // console.error("Error during sign in:", error);
       // alert("An error occurred. Please try again.");
       navigate("/clubDashboard");
     }

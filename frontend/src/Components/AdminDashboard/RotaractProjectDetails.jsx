@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "./adminDashboard.css";
 import Aside from "./Aside";
-import DeleteProject from "./DeleteProject";
-import UpdateProject from "./UpdateAdminDashboardProject";
 import "./navbar.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 export default function RotaractProjectDetails() {
   const { clubName } = useParams();
-  const [updateProject, setUpdateProject] = useState(false);
-  const [deleteProject, setDeleteProject] = useState(false);
+
   const [projectDetails, setProjectDetails] = useState([]);
   const [majoreData, setMajoreData] = useState([]);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Fetch data from the API
   const fetchProjectDetails = async () => {
@@ -22,9 +20,12 @@ export default function RotaractProjectDetails() {
         "http://localhost:3005/api/v1/projects/getAll"
       ); // Replace with your API endpoint
       const data = await response.json();
-      console.log(data);
-      setProjectDetails(data);
-      setMajoreData(data);
+      const clubEmail = location.state.club.email;
+      let clubProjects = data.filter(
+        (project) => project.clubEmail === clubEmail
+      );
+      setProjectDetails(clubProjects);
+      setMajoreData(clubProjects);
     } catch (error) {
       console.error("Error fetching project details:", error);
     }
@@ -33,9 +34,9 @@ export default function RotaractProjectDetails() {
   useEffect(() => {
     fetchProjectDetails();
   }, [clubName]);
+
   const handleDeleteClub = async (id) => {
     try {
-      console.log("Deleting club with id:", id); // Debug log
       await fetch(`http://localhost:3005/api/v1/club/deleteClub/${id}`, {
         method: "DELETE",
       });
@@ -46,6 +47,21 @@ export default function RotaractProjectDetails() {
     }
   };
 
+  // Get president name and secretary name from the first index of majoreData
+  const presidentName =
+    majoreData.length > 0 ? majoreData[0].presidentName : "N/A";
+  const secretaryName =
+    majoreData.length > 0 ? majoreData[0].secretaryName : "N/A";
+
+  const handleExport = (club) => {
+    navigate(`/exportAdmindashboardProject/${club.clubName}`, {
+      state: { club },
+    });
+  };
+
+  const handleUpdate = (club) => {
+    navigate(`/update-dashboard-project/${club.clubName}`, { state: { club } });
+  };
   return (
     <React.Fragment>
       <nav className="navbar">
@@ -67,10 +83,10 @@ export default function RotaractProjectDetails() {
             <div className="majoreRole-details">
               <div className="majore-left">
                 <h1>
-                  <span>president:</span> president name
+                  <span>president:</span> {presidentName}
                 </h1>
                 <h1>
-                  <span>secretary:</span> secretary name
+                  <span>secretary:</span> {secretaryName}
                 </h1>
               </div>
               <div className="majore-right">
@@ -121,7 +137,7 @@ export default function RotaractProjectDetails() {
                   <tr key={_id}>
                     <td
                       onClick={() => {
-                        navigate("/exportAdmindashboardProject");
+                        handleExport(eachDetail);
                       }}
                     >
                       {projectName}
@@ -132,7 +148,7 @@ export default function RotaractProjectDetails() {
                       <button
                         className="update"
                         onClick={() => {
-                          navigate("/update-dashboard-project");
+                          handleUpdate(eachDetail);
                         }}
                       >
                         update
@@ -155,12 +171,6 @@ export default function RotaractProjectDetails() {
           </table>
         </div>
       </div>
-      {updateProject && (
-        <UpdateProject onClose={() => setUpdateProject(false)} />
-      )}
-      {deleteProject && (
-        <DeleteProject onClose={() => setDeleteProject(false)} />
-      )}
     </React.Fragment>
   );
 }

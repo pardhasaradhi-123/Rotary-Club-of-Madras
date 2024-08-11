@@ -5,6 +5,7 @@ import DeleteProject from "./DeleteProject";
 import ExportProject from "./ExportProject";
 import "./navbar.css";
 import { useNavigate } from "react-router-dom";
+import { ADMIN_EMAIL } from "../../constant";
 
 export default function Project() {
   const [deleteProject, setDeleteProject] = useState(false);
@@ -22,9 +23,19 @@ export default function Project() {
           "http://localhost:3005/api/v1/projects/getAll"
         ); // Replace with your API endpoint
         const data = await response.json();
-        console.log(data);
-        setProjectDetails(data);
-        setMajoreData(data);
+
+        const currentClubEmail = localStorage.getItem("email");
+        let clubProjects = [];
+        if (currentClubEmail !== ADMIN_EMAIL) {
+          clubProjects = data.filter(
+            (project) => project.clubEmail === currentClubEmail
+          );
+        } else {
+          clubProjects = data;
+        }
+
+        setProjectDetails(clubProjects);
+        setMajoreData(clubProjects);
       } catch (error) {
         console.error("Error fetching project details:", error);
       }
@@ -45,6 +56,11 @@ export default function Project() {
       console.error("Error deleting club:", error);
     }
   };
+  // Get president name and secretary name from the first index of majoreData
+  const presidentName =
+    majoreData.length > 0 ? majoreData[0].presidentName : "N/A";
+  const secretaryName =
+    majoreData.length > 0 ? majoreData[0].secretaryName : "N/A";
 
   return (
     <React.Fragment>
@@ -75,10 +91,10 @@ export default function Project() {
             <div className="majoreRole-details">
               <div className="majore-left">
                 <h1>
-                  <span>president:</span> {majoreData.presidentName}
+                  <span>president:</span> {presidentName}
                 </h1>
                 <h1>
-                  <span>secretary:</span> {majoreData.secretaryName}
+                  <span>secretary:</span> {secretaryName}
                 </h1>
               </div>
               <div className="majore-right">

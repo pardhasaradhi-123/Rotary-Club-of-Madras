@@ -68,6 +68,8 @@ export default function AddProject() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (validateForm()) {
+      const clubEmail = localStorage.getItem("email");
+      console.log(clubEmail);
       try {
         const response = await fetch(
           "http://localhost:3005/api/v1/projects/save",
@@ -76,7 +78,7 @@ export default function AddProject() {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify({ ...formData, clubEmail }),
           }
         );
 
@@ -113,11 +115,18 @@ export default function AddProject() {
     { name: "projectMonth", label: "Project Month", type: "month" },
     { name: "totalManHourSpent", label: "Total Man Hours Spent", type: "text" },
     { name: "venue", label: "Venue", type: "text" },
+
     { name: "projectPhotoLink", label: "Project Photo Link", type: "text" },
     {
       name: "projectDescription",
       label: "Project Description",
       type: "textarea",
+    },
+    {
+      name: "clubType",
+      label: "Club Type",
+      type: "select",
+      options: ["Interact", "Rotaract"],
     },
   ];
 
@@ -142,10 +151,24 @@ export default function AddProject() {
             </div>
           </div>
           <div className="input-section export">
-            {formFields.map(({ name, label, type }) => (
+            {formFields.map(({ name, label, type, options }) => (
               <div className="input" key={name}>
                 <label htmlFor={name}>{label}:</label>
-                {type === "textarea" ? (
+                {type === "select" ? (
+                  <select
+                    name={name}
+                    value={formData[name] || ""}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select {label.toLowerCase()}</option>
+                    {options.map((option, index) => (
+                      <option key={index} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                ) : type === "textarea" ? (
                   <textarea
                     name={name}
                     placeholder={`Enter ${label.toLowerCase()}`}

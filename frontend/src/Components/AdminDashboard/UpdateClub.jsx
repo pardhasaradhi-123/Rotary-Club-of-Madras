@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./addClub.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 
 const fields = [
   {
@@ -38,22 +38,29 @@ const fields = [
 ];
 
 const UpdateClub = () => {
-  const { _id } = useParams(); // Get the club id from the URL
+  const { _id } = useParams(); // Get the club ID from the URL, now named clubID
   const [formData, setFormData] = useState({});
-  const [formErrors, setFormErrors] = useState({});
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    // Fetch the club details when the component mounts
+    // Fetch all clubs and find the specific club by clubID
     const fetchClubDetails = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3005/api/v1/club/getAll/${_id}` // Assuming this is the correct endpoint
+          `http://localhost:3005/api/v1/club/getAll` // Fetch all clubs
         );
         const club = await response.json();
-        setFormData(club);
-        console.log(club);
+        setFormData(location.state.club, club);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        setLoading(false);
       } catch (error) {
         console.error("Failed to fetch club details", error);
+        setLoading(false);
       }
     };
 
@@ -65,55 +72,33 @@ const UpdateClub = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const validateForm = () => {
-    let valid = true;
-    const newErrors = {};
-
-    fields.forEach((field) => {
-      if (
-        field.type !== "select" &&
-        (!formData[field.name] || formData[field.name].trim() === "")
-      ) {
-        newErrors[field.name] = `${field.label} is required`;
-        valid = false;
-      }
-      if (field.name === "email" && !formData.email.includes("@gmail.com")) {
-        newErrors.email = "Invalid email address";
-        valid = false;
-      }
-    });
-
-    setFormErrors(newErrors);
-    return valid;
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (validateForm()) {
-      try {
-        const response = await fetch(
-          `http://localhost:3005/api/v1/club/updateClub/${_id}`, // Assuming this is the correct endpoint
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-          }
-        );
-
-        if (response.ok) {
-          console.log("Club updated successfully!");
-        } else {
-          console.error("Failed to update the club");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `http://localhost:3005/api/v1/club/update`, // Update club details by clubID
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
         }
-      } catch (error) {
-        console.error("Error occurred while updating the club", error);
+      );
+
+      if (response.ok) {
+        navigate("/adminDashboard"); // Redirect to the dashboard on success
+      } else {
+        console.error("Failed to update the club");
       }
-    } else {
-      console.log("Form is invalid. Please check the fields.");
+    } catch (error) {
+      console.error("Error occurred while updating the club", error);
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="form-container">
@@ -155,9 +140,6 @@ const UpdateClub = () => {
                   value={formData[field.name] || ""}
                   onChange={handleChange}
                 />
-              )}
-              {formErrors[field.name] && (
-                <span style={{ color: "red" }}>{formErrors[field.name]}</span>
               )}
             </div>
           ))}
