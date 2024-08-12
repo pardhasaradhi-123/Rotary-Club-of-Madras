@@ -13,11 +13,11 @@ async function login(req, res) {
     let user = await User.findOne({ emailId: emailId }).populate("role").exec();
 
     if (!user) {
-      console.log(emailId);
-      user = await Clubs.findOne({ email: emailId }).exec();
+
+      user = await Clubs.findOne({ email: emailId, isDeleted: false }).exec();
     }
     if (user) {
-      // console.log(user);
+      console.log(user);
 
       const isMatch = await bcrypt.compare(req.body.password, user.password);
       // if (isMatch) {
