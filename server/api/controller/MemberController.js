@@ -1,3 +1,4 @@
+const member = require("../model/member");
 const Members = require("../model/member");
 
 exports.saveMember = async (req, res, next) => {

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function AddProject() {
   const navigate = useNavigate();
+
   const initialFormData = {
     projectName: "",
     projectChairName: "",
@@ -12,7 +13,7 @@ export default function AddProject() {
     hostClubName: "",
     coHostClubName: "",
     projectAvenue: "",
-    noOfBenifeshiers: "",
+    noOfBeneficiaries: "",
     speaker: "",
     totalAmountSpent: "",
     projectPhotoLink: "",
@@ -24,41 +25,111 @@ export default function AddProject() {
     venue: "",
     clubType: "",
   };
+
   const formFields = [
-    { name: "projectName", label: "Project Name", type: "text" },
-    { name: "projectChairName", label: "Project Chairman Name", type: "text" },
+    {
+      name: "projectName",
+      label: "Project Name",
+      type: "text",
+      required: true,
+    },
+    {
+      name: "projectChairName",
+      label: "Project Chairman Name",
+      type: "text",
+      required: true,
+    },
     {
       name: "projectSecretaryName",
       label: "Project Secretary Name",
       type: "text",
+      required: true,
     },
-    { name: "hostClubName", label: "Host Club Name", type: "text" },
-    { name: "coHostClubName", label: "Co-Host Club Name", type: "text" },
-    { name: "projectAvenue", label: "Project Avenue", type: "text" },
-    { name: "noOfBenifeshiers", label: "No. of Beneficiaries", type: "text" },
-    { name: "speaker", label: "Speaker/Guests", type: "text" },
-    { name: "totalAmountSpent", label: "Total Amount Spent", type: "text" },
-    { name: "presidentName", label: "President Name", type: "text" },
-    { name: "secretaryName", label: "Secretary Name", type: "text" },
-    { name: "projectMonth", label: "Project Month", type: "month" },
-    { name: "totalManHourSpent", label: "Total Man Hours Spent", type: "text" },
-    { name: "venue", label: "Venue", type: "text" },
-
-    { name: "projectPhotoLink", label: "Project Photo Link", type: "text" },
+    {
+      name: "hostClubName",
+      label: "Host Club Name",
+      type: "text",
+      required: false,
+    },
+    {
+      name: "coHostClubName",
+      label: "Co-Host Club Name",
+      type: "text",
+      required: false,
+    },
+    {
+      name: "projectAvenue",
+      label: "Project Avenue",
+      type: "text",
+      required: true,
+    },
+    {
+      name: "noOfBeneficiaries",
+      label: "No. of Beneficiaries",
+      type: "text",
+      required: true,
+    },
+    { name: "speaker", label: "Speaker/Guests", type: "text", required: false },
+    {
+      name: "totalAmountSpent",
+      label: "Total Amount Spent",
+      type: "text",
+      required: true,
+    },
+    {
+      name: "presidentName",
+      label: "President Name",
+      type: "text",
+      required: true,
+    },
+    {
+      name: "secretaryName",
+      label: "Secretary Name",
+      type: "text",
+      required: true,
+    },
+    {
+      name: "projectMonth",
+      label: "Project Month",
+      type: "month",
+      required: true,
+    },
+    {
+      name: "totalManHourSpent",
+      label: "Total Man Hours Spent",
+      type: "text",
+      required: true,
+    },
+    { name: "venue", label: "Venue", type: "text", required: true },
+    {
+      name: "projectPhotoLink",
+      label: "Project Photo Link",
+      type: "text",
+      required: true,
+    },
     {
       name: "projectDescription",
       label: "Project Description",
       type: "textarea",
+      required: true,
     },
     {
       name: "clubType",
       label: "Club Type",
       type: "select",
       options: ["Interact", "Rotaract"],
+      required: true,
     },
   ];
 
   const [formData, setFormData] = useState(initialFormData);
+
+  const [formErrors, setFormErrors] = useState(
+    Object.keys(initialFormData).reduce((acc, key) => {
+      acc[key] = "";
+      return acc;
+    }, {})
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -68,30 +139,16 @@ export default function AddProject() {
     });
   };
 
-  const [formErrors, setFormErrors] = useState(
-    Object.keys(initialFormData).reduce((acc, key) => {
-      acc[key] = "";
-      return acc;
-    }, {})
-  );
-
   const validateForm = () => {
     let valid = true;
-    const newErrors = { ...formErrors };
+    const newErrors = {};
 
-    Object.keys(formData).forEach((key) => {
-      if (
-        formData[key] === "" &&
-        key !== "speaker" &&
-        key !== "hostClubName" &&
-        key !== "coHostClubName"
-      ) {
-        newErrors[key] = `${key
-          .replace(/([A-Z])/g, " $1")
-          .toLowerCase()} is required`;
+    formFields.forEach((field) => {
+      if (field.required && formData[field.name].trim() === "") {
+        newErrors[field.name] = `${field.label} is required`;
         valid = false;
       } else {
-        newErrors[key] = "";
+        newErrors[field.name] = "";
       }
     });
 
@@ -136,7 +193,7 @@ export default function AddProject() {
         <form onSubmit={handleSubmit}>
           <div className="form-top">
             <div className="form-left">
-              <h1>add project</h1>
+              <h1>Add Project</h1>
               <h4>Adding project</h4>
             </div>
             <div className="form-right">
@@ -151,16 +208,14 @@ export default function AddProject() {
             </div>
           </div>
           <div className="export">
-            {formFields.map(({ name, label, type, options }) => (
+            {formFields.map(({ name, label, type, options, required }) => (
               <div className="input" key={name}>
                 <label htmlFor={name}>
                   {label}:
-                  {label === "Host Club Name" ||
-                  label === "Co-Host Club Name" ||
-                  label === "Speaker/Guests" ? (
-                    <span>(optional)</span>
-                  ) : (
+                  {required ? (
                     <span style={{ color: "red" }}>*</span>
+                  ) : (
+                    <span>(optional)</span>
                   )}
                 </label>
                 {type === "select" ? (

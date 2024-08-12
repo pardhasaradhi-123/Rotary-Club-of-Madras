@@ -78,6 +78,7 @@ export default function AddMember() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     if (validateForm()) {
       const clubEmail = localStorage.getItem("email");
       try {
@@ -93,6 +94,7 @@ export default function AddMember() {
         );
         if (response.ok) {
           console.log("Form submitted successfully", formData);
+
           navigate("/club-member");
         } else {
           console.error("Error submitting form");

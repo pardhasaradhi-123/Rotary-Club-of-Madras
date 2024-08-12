@@ -26,18 +26,17 @@ exports.saveProject = async (req, res, next) => {
     venue,
     clubEmail,
     clubType,
-    
   } = req.body;
 
   const newProject = new Project({
     projectName,
     projectChairName,
     projectSecretaryName,
-    hostClubName,
-    coHostClubName,
+    hostClubName: req.body.hostClubName || " ",
+    coHostClubName: req.body.coHostClubName || " ",
     projectAvenue,
     noOfBenifeshiers,
-    speaker,
+    speaker: req.body.speaker || " ",
     totalAmountSpent,
     projectPhotoLink,
     projectDescription,
@@ -54,6 +53,8 @@ exports.saveProject = async (req, res, next) => {
     await newProject.save();
     res.status(200).json({ message: "Project created successfully!" });
   } catch (err) {
+    console.log(err);
+
     res.status(500).json({ message: "Error creating project", error: err });
   }
 };
