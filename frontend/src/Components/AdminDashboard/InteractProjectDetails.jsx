@@ -54,16 +54,16 @@ export default function InteractProjectDetails() {
   const secretaryName =
     majoreData.length > 0 ? majoreData[0].secretaryName : "N/A";
   const handleExport = (club) => {
-    navigate(`/exportAdmindashboardProject/${club.clubName}`, {
+    navigate(`/exportAdmindashboardProject/${club.projectName}`, {
       state: { club },
     });
   };
 
-  const handleUpdate = (club) => {
-    navigate(`/update-dashboard-project/${club.projectName}`, {
-      state: { club },
-    });
-  };
+  // const handleUpdate = (club) => {
+  //   navigate(`/update-dashboard-project/${club.projectName}`, {
+  //     state: { club },
+  //   });
+  // };
 
   return (
     <React.Fragment>
@@ -149,14 +149,7 @@ export default function InteractProjectDetails() {
                     <td>{projectMonth}</td>
                     <td>{projectAvenue}</td>
                     <td>
-                      <button
-                        className="update"
-                        onClick={() => {
-                          handleUpdate(eachDetail);
-                        }}
-                      >
-                        update
-                      </button>
+                      <button className="update">update</button>
                     </td>
                     <td>
                       <button

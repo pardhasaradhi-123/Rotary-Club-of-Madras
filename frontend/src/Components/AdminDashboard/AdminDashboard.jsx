@@ -34,9 +34,9 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleUpdateClub = (club) => {
-    navigate(`/updateclub/${club.clubName}`, { state: { club } });
-  };
+  // const handleUpdateClub = (club) => {
+  //   navigate(`/updateclub/${club.clubName}`, { state: { club } });
+  // };
 
   const fetchProjectDetails = async () => {
     try {
@@ -175,12 +175,7 @@ export default function AdminDashboard() {
                       <td>{clubID}</td>
                       <td>{month}</td>
                       <td>
-                        <button
-                          className="update"
-                          onClick={() => handleUpdateClub(eachDetail)}
-                        >
-                          update
-                        </button>
+                        <button className="update">update</button>
                       </td>
                       <td>
                         <button

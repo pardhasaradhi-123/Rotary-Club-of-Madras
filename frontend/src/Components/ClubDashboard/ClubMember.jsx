@@ -120,14 +120,7 @@ export default function ClubMember() {
                     <td>{id}</td>
                     <td>{designation}</td>
                     <td>
-                      <button
-                        className="update"
-                        onClick={() => {
-                          navigate("/updateMember");
-                        }}
-                      >
-                        update
-                      </button>
+                      <button className="update">update</button>
                     </td>
                     <td>
                       <button

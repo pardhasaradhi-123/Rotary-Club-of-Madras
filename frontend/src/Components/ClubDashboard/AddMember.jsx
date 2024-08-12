@@ -57,7 +57,7 @@ export default function AddMember() {
     const newErrors = {};
 
     fields.forEach((field) => {
-      if (formData[field.name] === "") {
+      if (field.name !== "id" && formData[field.name] === "") {
         newErrors[field.name] = `${field.label} is required`;
         valid = false;
       }
@@ -125,7 +125,14 @@ export default function AddMember() {
           <div className="input-section">
             {fields.map((field) => (
               <div className="input" key={field.name}>
-                <label htmlFor={field.name}>{field.label}:</label>
+                <label htmlFor={field.name}>
+                  {field.label}:
+                  {field.label === "ID" ? (
+                    <span>(optional)</span>
+                  ) : (
+                    <span style={{ color: "red" }}>*</span>
+                  )}
+                </label>
                 <input
                   type={field.type}
                   name={field.name}

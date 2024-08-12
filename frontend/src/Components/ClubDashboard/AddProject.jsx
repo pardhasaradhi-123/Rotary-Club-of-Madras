@@ -22,7 +22,41 @@ export default function AddProject() {
     projectMonth: "",
     totalManHourSpent: "",
     venue: "",
+    clubType: "",
   };
+  const formFields = [
+    { name: "projectName", label: "Project Name", type: "text" },
+    { name: "projectChairName", label: "Project Chairman Name", type: "text" },
+    {
+      name: "projectSecretaryName",
+      label: "Project Secretary Name",
+      type: "text",
+    },
+    { name: "hostClubName", label: "Host Club Name", type: "text" },
+    { name: "coHostClubName", label: "Co-Host Club Name", type: "text" },
+    { name: "projectAvenue", label: "Project Avenue", type: "text" },
+    { name: "noOfBenifeshiers", label: "No. of Beneficiaries", type: "text" },
+    { name: "speaker", label: "Speaker/Guests", type: "text" },
+    { name: "totalAmountSpent", label: "Total Amount Spent", type: "text" },
+    { name: "presidentName", label: "President Name", type: "text" },
+    { name: "secretaryName", label: "Secretary Name", type: "text" },
+    { name: "projectMonth", label: "Project Month", type: "month" },
+    { name: "totalManHourSpent", label: "Total Man Hours Spent", type: "text" },
+    { name: "venue", label: "Venue", type: "text" },
+
+    { name: "projectPhotoLink", label: "Project Photo Link", type: "text" },
+    {
+      name: "projectDescription",
+      label: "Project Description",
+      type: "textarea",
+    },
+    {
+      name: "clubType",
+      label: "Club Type",
+      type: "select",
+      options: ["Interact", "Rotaract"],
+    },
+  ];
 
   const [formData, setFormData] = useState(initialFormData);
 
@@ -69,7 +103,7 @@ export default function AddProject() {
     event.preventDefault();
     if (validateForm()) {
       const clubEmail = localStorage.getItem("email");
-      console.log(clubEmail);
+
       try {
         const response = await fetch(
           "http://localhost:3005/api/v1/projects/save",
@@ -96,40 +130,6 @@ export default function AddProject() {
     }
   };
 
-  const formFields = [
-    { name: "projectName", label: "Project Name", type: "text" },
-    { name: "projectChairName", label: "Project Chairman Name", type: "text" },
-    {
-      name: "projectSecretaryName",
-      label: "Project Secretary Name",
-      type: "text",
-    },
-    { name: "hostClubName", label: "Host Club Name", type: "text" },
-    { name: "coHostClubName", label: "Co-Host Club Name", type: "text" },
-    { name: "projectAvenue", label: "Project Avenue", type: "text" },
-    { name: "noOfBenifeshiers", label: "No. of Beneficiaries", type: "text" },
-    { name: "speaker", label: "Speaker/Guests", type: "text" },
-    { name: "totalAmountSpent", label: "Total Amount Spent", type: "text" },
-    { name: "presidentName", label: "President Name", type: "text" },
-    { name: "secretaryName", label: "Secretary Name", type: "text" },
-    { name: "projectMonth", label: "Project Month", type: "month" },
-    { name: "totalManHourSpent", label: "Total Man Hours Spent", type: "text" },
-    { name: "venue", label: "Venue", type: "text" },
-
-    { name: "projectPhotoLink", label: "Project Photo Link", type: "text" },
-    {
-      name: "projectDescription",
-      label: "Project Description",
-      type: "textarea",
-    },
-    {
-      name: "clubType",
-      label: "Club Type",
-      type: "select",
-      options: ["Interact", "Rotaract"],
-    },
-  ];
-
   return (
     <React.Fragment>
       <div className="form-container">
@@ -137,7 +137,7 @@ export default function AddProject() {
           <div className="form-top">
             <div className="form-left">
               <h1>add project</h1>
-              <h4>Titles go here</h4>
+              <h4>Adding project</h4>
             </div>
             <div className="form-right">
               <span
@@ -150,16 +150,24 @@ export default function AddProject() {
               </span>
             </div>
           </div>
-          <div className="input-section export">
+          <div className="export">
             {formFields.map(({ name, label, type, options }) => (
               <div className="input" key={name}>
-                <label htmlFor={name}>{label}:</label>
+                <label htmlFor={name}>
+                  {label}:
+                  {label === "Host Club Name" ||
+                  label === "Co-Host Club Name" ||
+                  label === "Speaker/Guests" ? (
+                    <span>(optional)</span>
+                  ) : (
+                    <span style={{ color: "red" }}>*</span>
+                  )}
+                </label>
                 {type === "select" ? (
                   <select
                     name={name}
                     value={formData[name] || ""}
                     onChange={handleChange}
-                    required
                   >
                     <option value="">Select {label.toLowerCase()}</option>
                     {options.map((option, index) => (

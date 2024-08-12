@@ -41,9 +41,9 @@ export default function Rotaract() {
     });
   };
 
-  const handleUpdate = (club) => {
-    navigate(`/updateclub/${club.clubName}`, { state: { club } });
-  };
+  // const handleUpdate = (club) => {
+  //   navigate(`/updateclub/${club.clubName}`, { state: { club } });
+  // };
   return (
     <React.Fragment>
       <nav className="navbar">
@@ -99,14 +99,7 @@ export default function Rotaract() {
                     <td>{month}</td>
 
                     <td>
-                      <button
-                        className="update"
-                        onClick={() => {
-                          handleUpdate(eachDetail);
-                        }}
-                      >
-                        update
-                      </button>
+                      <button className="update">update</button>
                     </td>
 
                     <td>

@@ -78,7 +78,7 @@ export default function AddClub() {
 
     // Validate each form field dynamically
     formFields.forEach(({ name }) => {
-      if (formData[name] === "") {
+      if (name !== "clubID" && formData[name] === "") {
         newErrors[name] = `${
           name.charAt(0).toUpperCase() + name.slice(1)
         } is required`;
@@ -139,7 +139,7 @@ export default function AddClub() {
           <div className="form-top">
             <div className="form-left">
               <h1>Add Club</h1>
-              <h4>Details go here</h4>
+              <h4>Adding club</h4>
             </div>
             <div className="form-right">
               <span
@@ -156,7 +156,14 @@ export default function AddClub() {
           <div className="input-section">
             {formFields.map(({ name, label, placeholder, type }) => (
               <div className="input" key={name}>
-                <label htmlFor={name}>{label}:</label>
+                <label htmlFor={name}>
+                  {label}:{" "}
+                  {label == "Club ID" ? (
+                    <span>(optional)</span>
+                  ) : (
+                    <span style={{ color: "red" }}>*</span>
+                  )}
+                </label>
                 <input
                   type={type}
                   name={name}
@@ -171,7 +178,9 @@ export default function AddClub() {
             ))}
 
             <div className="input">
-              <label htmlFor="clubType">Club Type:</label>
+              <label htmlFor="clubType">
+                Club Type:<span style={{ color: "red" }}>*</span>
+              </label>
               <select
                 name="clubType"
                 className="clubType"
@@ -189,7 +198,9 @@ export default function AddClub() {
             </div>
 
             <div className="input">
-              <label htmlFor="month">Month:</label>
+              <label htmlFor="month">
+                Month:<span style={{ color: "red" }}>*</span>
+              </label>
               <input
                 type="month"
                 name="month"

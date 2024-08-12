@@ -58,11 +58,11 @@ export default function Project() {
   const secretaryName =
     majoreData.length > 0 ? majoreData[0].secretaryName : "N/A";
 
-  const handleUpdate = (club) => {
-    navigate(`/updateClubdashboardProject/${club.projectName}`, {
-      state: { club },
-    });
-  };
+  // const handleUpdate = (club) => {
+  //   navigate(`/updateClubdashboardProject/${club.projectName}`, {
+  //     state: { club },
+  //   });
+  // };
 
   const handleExport = (club) => {
     navigate(`/export-clubDashboard-project/${club.projectName}`, {
@@ -157,14 +157,7 @@ export default function Project() {
                     <td>{projectMonth}</td>
                     <td>{projectAvenue}</td>
                     <td>
-                      <button
-                        className="update"
-                        onClick={() => {
-                          handleUpdate(eachDetail);
-                        }}
-                      >
-                        update
-                      </button>
+                      <button className="update">update</button>
                     </td>
                     <td>
                       <button

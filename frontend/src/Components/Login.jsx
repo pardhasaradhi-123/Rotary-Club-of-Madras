@@ -38,6 +38,7 @@ export default function Login() {
     } catch (error) {
       // console.error("Error during sign in:", error);
       // alert("An error occurred. Please try again.");
+
       navigate("/clubDashboard");
     }
   };
@@ -61,6 +62,7 @@ export default function Login() {
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              required
             />
           </div>
           <div className="flex flex-col py-2">
@@ -70,6 +72,7 @@ export default function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
           <button
