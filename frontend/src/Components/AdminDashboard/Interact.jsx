@@ -24,7 +24,7 @@ export default function Interact() {
   }, []);
   const handleDeleteClub = async (id) => {
     try {
-      console.log("Deleting club with id:", id); // Debug log
+      // Debug log
       await fetch(`http://localhost:3005/api/v1/club/deleteClub/${id}`, {
         method: "DELETE",
       });

@@ -7,6 +7,9 @@ import { ADMIN_EMAIL } from "../../constant";
 export default function ClubDashboard() {
   const [majoreProjectData, setMajoreProjectData] = useState([]);
   const [majoreMmeberData, setMajoreMemberData] = useState([]);
+  const [club, setClub] = useState({});
+
+  const currentUser = localStorage.getItem("email");
 
   const navigate = useNavigate();
   // Fetch data from the API
@@ -53,9 +56,22 @@ export default function ClubDashboard() {
     }
   };
 
+  const fetchClubDetails = async () => {
+    try {
+      const response = await fetch("http://localhost:3005/api/v1/club/getAll");
+      const data = await response.json();
+      const myclub = data.filter((club) => club.email === currentUser);
+
+      setClub(myclub[0]);
+    } catch (error) {
+      console.error("Error fetching details report:", error);
+    }
+  };
+
   useEffect(() => {
     fetchProjectDetails();
     fetchMembersData();
+    fetchClubDetails();
   }, []);
 
   return (
@@ -108,7 +124,9 @@ export default function ClubDashboard() {
                 alignItems: "center",
               }}
               onClick={() => {
-                navigate("/addproject");
+                navigate("/addproject", {
+                  state: { club },
+                });
               }}
             >
               <span className="material-symbols-outlined">add</span>

@@ -8,6 +8,8 @@ import { ADMIN_EMAIL } from "../../constant";
 export default function ClubMember() {
   const navigate = useNavigate();
   const [member, setMember] = useState([]);
+  const [club, setClub] = useState({});
+  const currentUser = localStorage.getItem("email");
 
   const fetchMembersData = async () => {
     const response = await fetch("http://localhost:3005/api/v1/member/getAll");
@@ -25,6 +27,7 @@ export default function ClubMember() {
   };
   useEffect(() => {
     fetchMembersData();
+    fetchClubDetails();
   }, []);
   const handleDeleteMember = async (id) => {
     try {
@@ -34,6 +37,17 @@ export default function ClubMember() {
       fetchMembersData();
     } catch (error) {
       console.error("Error deleting club:", error);
+    }
+  };
+  const fetchClubDetails = async () => {
+    try {
+      const response = await fetch("http://localhost:3005/api/v1/club/getAll");
+      const data = await response.json();
+      const myclub = data.filter((club) => club.email === currentUser);
+
+      setClub(myclub[0]);
+    } catch (error) {
+      console.error("Error fetching details report:", error);
     }
   };
   return (
@@ -69,10 +83,10 @@ export default function ClubMember() {
             <div className="majoreRole-details">
               <div className="majore-left">
                 <h1>
-                  <span>president:</span> president name
+                  <span>president:</span> {club?.presidentName}
                 </h1>
                 <h1>
-                  <span>secretary:</span> secretary name
+                  <span>secretary:</span> {club?.secretaryName}
                 </h1>
               </div>
               <div className="majore-right">

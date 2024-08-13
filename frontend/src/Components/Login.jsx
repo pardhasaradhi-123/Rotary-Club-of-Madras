@@ -19,11 +19,10 @@ export default function Login() {
       });
 
       localStorage.setItem("email", username);
-      console.log(response);
+
       if (response.ok) {
         const data = await response.json();
         const role = data.result.user?.role?.role;
-        console.log(data.result);
 
         if (role === "ADMIN") {
           navigate("/adminDashboard");

@@ -9,9 +9,24 @@ export default function InteractProjectDetails() {
   const { clubName } = useParams();
   const [projectDetails, setProjectDetails] = useState([]);
   const [majoreData, setMajoreData] = useState([]);
+  const [presidentName, setPresidentName] = useState("");
+  const [secretaryName, setSeSecretaryName] = useState("");
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    setSeSecretaryName(
+      location.state.club.secretaryName
+        ? location.state.club.secretaryName
+        : "N/A"
+    );
+    setPresidentName(
+      location.state.club.presidentName
+        ? location.state.club.presidentName
+        : "N/A"
+    );
+  }, [location]);
 
   // Fetch data from the API
   const fetchProjectDetails = async () => {
@@ -37,7 +52,7 @@ export default function InteractProjectDetails() {
   }, [clubName]);
   const handleDeleteClub = async (id) => {
     try {
-      console.log("Deleting club with id:", id); // Debug log
+      // Debug log
       await fetch(`http://localhost:3005/api/v1/club/deleteClub/${id}`, {
         method: "DELETE",
       });
@@ -49,10 +64,10 @@ export default function InteractProjectDetails() {
   };
 
   // Get president name and secretary name from the first index of majoreData
-  const presidentName =
-    majoreData.length > 0 ? majoreData[0].presidentName : "N/A";
-  const secretaryName =
-    majoreData.length > 0 ? majoreData[0].secretaryName : "N/A";
+  // const presidentName =
+  //   majoreData.length > 0 ? majoreData[0].presidentName : "N/A";
+  // const secretaryName =
+  //   majoreData.length > 0 ? majoreData[0].secretaryName : "N/A";
   const handleExport = (club) => {
     navigate(`/exportAdmindashboardProject/${club.projectName}`, {
       state: { club },

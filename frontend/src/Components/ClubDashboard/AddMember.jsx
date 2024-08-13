@@ -93,7 +93,7 @@ export default function AddMember() {
           }
         );
         if (response.ok) {
-          console.log("Form submitted successfully", formData);
+          console.log("Form submitted successfully");
 
           navigate("/club-member");
         } else {

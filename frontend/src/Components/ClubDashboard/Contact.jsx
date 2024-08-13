@@ -37,7 +37,7 @@ const Contact = () => {
     e.preventDefault();
     const formErrors = validate();
     if (Object.keys(formErrors).length === 0) {
-      console.log("Form data submitted:", formData);
+      console.log("Form data submitted:");
       setSubmitted(true);
     } else {
       setErrors(formErrors);

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./addClub.css";
 import "./exportClubDashboardProject.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function AddProject() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const initialFormData = {
     projectName: "",
@@ -113,16 +114,21 @@ export default function AddProject() {
       type: "textarea",
       required: true,
     },
-    {
-      name: "clubType",
-      label: "Club Type",
-      type: "select",
-      options: ["Interact", "Rotaract"],
-      required: true,
-    },
+    // {
+    //   name: "clubType",
+    //   label: "Club Type",
+    //   type: "select",
+    //   options: ["Interact", "Rotaract"],
+    //   required: true,
+    // },
   ];
 
   const [formData, setFormData] = useState(initialFormData);
+
+  useEffect(() => {
+    const { club } = location.state;
+    setFormData({ ...initialFormData, clubType: club.clubType });
+  }, [location]);
 
   const [formErrors, setFormErrors] = useState(
     Object.keys(initialFormData).reduce((acc, key) => {

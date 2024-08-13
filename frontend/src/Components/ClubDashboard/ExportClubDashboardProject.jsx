@@ -166,7 +166,6 @@ export default function ExporExportClubDashboardProjecttProject() {
     event.preventDefault();
     if (validateForm()) {
       // Perform form submission here
-      console.log(formData);
       // Replace console.log with your form submission logic (e.g., API call)
     } else {
       console.log("Form is invalid. Please check the fields.");

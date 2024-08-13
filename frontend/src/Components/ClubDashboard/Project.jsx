@@ -8,6 +8,8 @@ import { ADMIN_EMAIL } from "../../constant";
 export default function Project() {
   const [projectDetails, setProjectDetails] = useState([]);
   const [majoreData, setMajoreData] = useState([]);
+  const [club, setClub] = useState({});
+  const currentUser = localStorage.getItem("email");
 
   const navigate = useNavigate();
 
@@ -38,11 +40,12 @@ export default function Project() {
     };
 
     fetchProjectDetails();
+    fetchClubDetails();
   }, []);
 
   const handleDelete = async (id) => {
     try {
-      console.log("Deleting club with id:", id); // Debug log
+      console.log("Deleting club with id:"); // Debug log
       await fetch(`http://localhost:3005/api/v1/projects/deleteClub/${id}`, {
         method: "DELETE",
       });
@@ -52,11 +55,18 @@ export default function Project() {
       console.error("Error deleting club:", error);
     }
   };
-  // Get president name and secretary name from the first index of majoreData
-  const presidentName =
-    majoreData.length > 0 ? majoreData[0].presidentName : "N/A";
-  const secretaryName =
-    majoreData.length > 0 ? majoreData[0].secretaryName : "N/A";
+
+  const fetchClubDetails = async () => {
+    try {
+      const response = await fetch("http://localhost:3005/api/v1/club/getAll");
+      const data = await response.json();
+      const myclub = data.filter((club) => club.email === currentUser);
+
+      setClub(myclub[0]);
+    } catch (error) {
+      console.error("Error fetching details report:", error);
+    }
+  };
 
   // const handleUpdate = (club) => {
   //   navigate(`/updateClubdashboardProject/${club.projectName}`, {
@@ -99,10 +109,10 @@ export default function Project() {
             <div className="majoreRole-details">
               <div className="majore-left">
                 <h1>
-                  <span>president:</span> {presidentName}
+                  <span>president:</span> {club?.presidentName}
                 </h1>
                 <h1>
-                  <span>secretary:</span> {secretaryName}
+                  <span>secretary:</span> {club?.secretaryName}
                 </h1>
               </div>
               <div className="majore-right">
