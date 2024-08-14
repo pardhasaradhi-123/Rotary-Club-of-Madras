@@ -10,7 +10,7 @@ export default function Login() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3005/api/v1/logins/", {
+      const response = await fetch("http://13.232.41.111:3005/api/v1/logins/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

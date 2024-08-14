@@ -109,7 +109,7 @@ export default function AddClub() {
     event.preventDefault();
     if (validateForm()) {
       try {
-        const response = await fetch("http://localhost:3005/api/v1/club/save", {
+        const response = await fetch("http://13.232.41.111:3005/api/v1/club/save", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
