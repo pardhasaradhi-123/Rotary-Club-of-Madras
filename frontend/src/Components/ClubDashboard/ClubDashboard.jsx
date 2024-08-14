@@ -16,7 +16,7 @@ export default function ClubDashboard() {
   const fetchProjectDetails = async () => {
     try {
       const projectResponse = await fetch(
-        "http://localhost:3005/api/v1/projects/getAll"
+        "http://13.232.41.111:3005/api/v1/projects/getAll"
       ); // Replace with your API endpoint
       const projectData = await projectResponse.json();
       const currentClubEmail = localStorage.getItem("email");
@@ -37,7 +37,7 @@ export default function ClubDashboard() {
   const fetchMembersData = async () => {
     try {
       const memberResponse = await fetch(
-        "http://localhost:3005/api/v1/member/getAll"
+        "http://13.232.41.111:3005/api/v1/member/getAll"
       );
       const memberData = await memberResponse.json();
       const currentClubEmail = localStorage.getItem("email");
@@ -58,7 +58,7 @@ export default function ClubDashboard() {
 
   const fetchClubDetails = async () => {
     try {
-      const response = await fetch("http://localhost:3005/api/v1/club/getAll");
+      const response = await fetch("http://13.232.41.111:3005/api/v1/club/getAll");
       const data = await response.json();
       const myclub = data.filter((club) => club.email === currentUser);
 

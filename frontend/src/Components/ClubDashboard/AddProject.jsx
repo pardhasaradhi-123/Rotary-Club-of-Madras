@@ -169,7 +169,7 @@ export default function AddProject() {
 
       try {
         const response = await fetch(
-          "http://localhost:3005/api/v1/projects/save",
+          "http://13.232.41.111:3005/api/v1/projects/save",
           {
             method: "POST",
             headers: {
