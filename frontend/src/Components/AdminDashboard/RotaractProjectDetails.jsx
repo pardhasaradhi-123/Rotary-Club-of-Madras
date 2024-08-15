@@ -32,7 +32,7 @@ export default function RotaractProjectDetails() {
   const fetchProjectDetails = async () => {
     try {
       const response = await fetch(
-        "http://13.232.41.111:3005/api/v1/projects/getAll"
+        "https://rcmys.in/api/v1/projects/getAll"
       ); // Replace with your API endpoint
       const data = await response.json();
       const clubEmail = location.state.club.email;
@@ -52,7 +52,7 @@ export default function RotaractProjectDetails() {
 
   const handleDeleteClub = async (id) => {
     try {
-      await fetch(`http://13.232.41.111:3005/api/v1/projects/deleteClub/${id}`, {
+      await fetch(`https://rcmys.in/api/v1/projects/deleteClub/${id}`, {
         method: "DELETE",
       });
       // Refresh data by fetching overview details and details report again

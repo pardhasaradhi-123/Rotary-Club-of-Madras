@@ -10,7 +10,7 @@ export default function Rotaract() {
   const navigate = useNavigate();
   const fetchDetailsReport = async () => {
     try {
-      const response = await fetch("http://13.232.41.111:3005/api/v1/club/getAll"); // Replace with your API endpoint
+      const response = await fetch("https://rcmys.in/api/v1/club/getAll"); // Replace with your API endpoint
       const data = await response.json();
       const rotaractClubs = data.filter((club) => club.clubType === "rotaract");
       setRotaractDetailsReport(rotaractClubs);
@@ -24,7 +24,7 @@ export default function Rotaract() {
   const handleDeleteClub = async (id) => {
     try {
       console.log("Deleting club with id:", id); // Debug log
-      await fetch(`http://13.232.41.111:3005/api/v1/club/deleteClub/${id}`, {
+      await fetch(`https://rcmys.in/api/v1/club/deleteClub/${id}`, {
         method: "DELETE",
       });
       // Refresh data by fetching overview details and details report again
