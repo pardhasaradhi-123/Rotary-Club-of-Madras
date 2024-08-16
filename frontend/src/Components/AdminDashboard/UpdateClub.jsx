@@ -49,7 +49,7 @@ const UpdateClub = () => {
     const fetchClubDetails = async () => {
       try {
         const response = await fetch(
-          `https://rcmys.in/api/v1/club/getAll` // Fetch all clubs
+          `https://server.rcmys.in/api/v1/club/getAll` // Fetch all clubs
         );
         const club = await response.json();
         setFormData(location.state.club, club);
@@ -76,7 +76,7 @@ const UpdateClub = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `https://rcmys.in/api/v1/club/update`, // Update club details by clubID
+        `https://server.rcmys.in/api/v1/club/update`, // Update club details by clubID
         {
           method: "PUT",
           headers: {

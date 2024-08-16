@@ -18,7 +18,7 @@ export default function Project() {
     const fetchProjectDetails = async () => {
       try {
         const response = await fetch(
-          "https://rcmys.in/api/v1/projects/getAll"
+          "https://server.rcmys.in/api/v1/projects/getAll"
         ); // Replace with your API endpoint
         const data = await response.json();
 
@@ -46,7 +46,7 @@ export default function Project() {
   const handleDelete = async (id) => {
     try {
       console.log("Deleting club with id:"); // Debug log
-      await fetch(`https://rcmys.in/api/v1/projects/deleteClub/${id}`, {
+      await fetch(`https://server.rcmys.in/api/v1/projects/deleteClub/${id}`, {
         method: "DELETE",
       });
       // Refresh data by fetching overview details and details report again
@@ -58,7 +58,7 @@ export default function Project() {
 
   const fetchClubDetails = async () => {
     try {
-      const response = await fetch("https://rcmys.in/api/v1/club/getAll");
+      const response = await fetch("https://server.rcmys.in/api/v1/club/getAll");
       const data = await response.json();
       const myclub = data.filter((club) => club.email === currentUser);
 

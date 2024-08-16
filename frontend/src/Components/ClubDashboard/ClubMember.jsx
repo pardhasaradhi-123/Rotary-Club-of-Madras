@@ -12,7 +12,7 @@ export default function ClubMember() {
   const currentUser = localStorage.getItem("email");
 
   const fetchMembersData = async () => {
-    const response = await fetch("https://rcmys.in/api/v1/member/getAll");
+    const response = await fetch("https://server.rcmys.in/api/v1/member/getAll");
     const data = await response.json();
     const currentClubEmail = localStorage.getItem("email");
     let clubMembers = [];
@@ -31,7 +31,7 @@ export default function ClubMember() {
   }, []);
   const handleDeleteMember = async (id) => {
     try {
-      await fetch(`https://rcmys.in/api/v1/member/deleteClub/${id}`, {
+      await fetch(`https://server.rcmys.in/api/v1/member/deleteClub/${id}`, {
         method: "DELETE",
       });
       fetchMembersData();
@@ -41,7 +41,7 @@ export default function ClubMember() {
   };
   const fetchClubDetails = async () => {
     try {
-      const response = await fetch("https://rcmys.in/api/v1/club/getAll");
+      const response = await fetch("https://server.rcmys.in/api/v1/club/getAll");
       const data = await response.json();
       const myclub = data.filter((club) => club.email === currentUser);
 
