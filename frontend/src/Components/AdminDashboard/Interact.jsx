@@ -11,7 +11,7 @@ export default function Interact() {
 
   const fetchDetailsReport = async () => {
     try {
-      const response = await fetch("https://rcmys.in/api/v1/club/getAll"); // Replace with your API endpoint
+      const response = await fetch("https://server.rcmys.in/api/v1/club/getAll"); // Replace with your API endpoint
       const data = await response.json();
       const interactClubs = data.filter((club) => club.clubType === "interact");
       setInteractDetailsReport(interactClubs);
@@ -25,7 +25,7 @@ export default function Interact() {
   const handleDeleteClub = async (id) => {
     try {
       // Debug log
-      await fetch(`https://rcmys.in/api/v1/club/deleteClub/${id}`, {
+      await fetch(`https://server.rcmys.in/api/v1/club/deleteClub/${id}`, {
         method: "DELETE",
       });
       // Refresh data by fetching overview details and details report again

@@ -169,7 +169,7 @@ export default function AddProject() {
 
       try {
         const response = await fetch(
-          "https://rcmys.in/api/v1/projects/save",
+          "https://server.rcmys.in/api/v1/projects/save",
           {
             method: "POST",
             headers: {

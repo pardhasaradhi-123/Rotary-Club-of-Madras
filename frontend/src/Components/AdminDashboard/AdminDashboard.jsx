@@ -16,7 +16,7 @@ export default function AdminDashboard() {
 
   const fetchDetailsReport = async () => {
     try {
-      const response = await fetch("https://rcmys.in/api/v1/club/getAll");
+      const response = await fetch("https://server.rcmys.in/api/v1/club/getAll");
       const data = await response.json();
       setDetailsReport(data);
     } catch (error) {
@@ -25,7 +25,7 @@ export default function AdminDashboard() {
   };
   const handleDeleteClub = async (id) => {
     try {
-      await fetch(`https://rcmys.in/api/v1/club/deleteClub/${id}`, {
+      await fetch(`https://server.rcmys.in/api/v1/club/deleteClub/${id}`, {
         method: "DELETE",
       });
       fetchDetailsReport();
@@ -41,7 +41,7 @@ export default function AdminDashboard() {
   const fetchProjectDetails = async () => {
     try {
       const response = await fetch(
-        "https://rcmys.in/api/v1/projects/getAll"
+        "https://server.rcmys.in/api/v1/projects/getAll"
       );
       const data = await response.json();
       const rotaractClubs = data.filter((club) => club.clubType === "Rotaract");

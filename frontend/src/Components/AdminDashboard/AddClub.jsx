@@ -109,7 +109,7 @@ export default function AddClub() {
     event.preventDefault();
     if (validateForm()) {
       try {
-        const response = await fetch("https://rcmys.in/api/v1/club/save", {
+        const response = await fetch("https://server.rcmys.in/api/v1/club/save", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

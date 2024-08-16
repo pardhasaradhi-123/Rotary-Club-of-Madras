@@ -32,7 +32,7 @@ export default function InteractProjectDetails() {
   const fetchProjectDetails = async () => {
     try {
       const response = await fetch(
-        "https://rcmys.in/api/v1/projects/getAll"
+        "https://server.rcmys.in/api/v1/projects/getAll"
       ); // Replace with your API endpoint
       const data = await response.json();
       const clubEmail = location.state.club.email;
@@ -53,7 +53,7 @@ export default function InteractProjectDetails() {
   const handleDeleteClub = async (id) => {
     try {
       // Debug log
-      await fetch(`https://rcmys.in/api/v1/club/deleteClub/${id}`, {
+      await fetch(`https://server.rcmys.in/api/v1/club/deleteClub/${id}`, {
         method: "DELETE",
       });
       // Refresh data by fetching overview details and details report again

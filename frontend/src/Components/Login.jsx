@@ -10,7 +10,7 @@ export default function Login() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://rcmys.in/api/v1/logins/", {
+      const response = await fetch("https://server.rcmys.in/api/v1/logins/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

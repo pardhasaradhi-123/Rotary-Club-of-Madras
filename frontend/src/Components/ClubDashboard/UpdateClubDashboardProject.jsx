@@ -75,7 +75,7 @@ export default function UpdateClubDashboardProject() {
     if (validateForm()) {
       try {
         const response = await fetch(
-          "https://rcmys.in/api/v1/projects/update",
+          "https://server.rcmys.in/api/v1/projects/update",
           {
             method: "POST",
             headers: {
@@ -123,7 +123,7 @@ export default function UpdateClubDashboardProject() {
   const fetchProjectDetails = async () => {
     try {
       const response = await fetch(
-        "https://rcmys.in/api/v1/projects/getAll"
+        "https://server.rcmys.in/api/v1/projects/getAll"
       );
       const project = await response.json();
       setFormData(location.state.club, project);

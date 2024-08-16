@@ -83,7 +83,7 @@ export default function AddMember() {
       const clubEmail = localStorage.getItem("email");
       try {
         const response = await fetch(
-          "https://rcmys.in/api/v1/member/save",
+          "https://server.rcmys.in/api/v1/member/save",
           {
             method: "POST",
             headers: {
