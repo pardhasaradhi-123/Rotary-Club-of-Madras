@@ -24,7 +24,7 @@ export default function Login() {
         const data = await response.json();
         const role = data.result.user?.role?.role;
 
-        if (role === "ADMIN") {
+        if (role === "SUPERADMIN") {
           navigate("/adminDashboard");
         } else if (role === "CLUB") {
           navigate("/clubDashboard");

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-plugin-autoinc');
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs');
 
 const userSchema = mongoose.Schema({
     userName: {
@@ -53,12 +53,12 @@ userSchema.plugin(autoIncrement.plugin, {
     incrementBy: 1
 });
 
-userSchema.statics.hashPassword = function hashPassword(password) {
-    return bcrypt.hashSync(password, 10);
-}
+// userSchema.statics.hashPassword = function hashPassword(password) {
+//     return bcrypt.hashSync(password, 10);
+// }
 
-userSchema.methods.isValid = function (hashedPassword) {
-    return bcrypt.compareSync(hashedPassword, this.password);
-}
+// userSchema.methods.isValid = function (hashedPassword) {
+//     return bcrypt.compareSync(hashedPassword, this.password);
+// }
 
 module.exports = mongoose.model('User', userSchema);

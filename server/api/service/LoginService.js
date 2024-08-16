@@ -3,7 +3,7 @@ const Clubs = require("../model/club");
 const logger = require("../lib/logger");
 const { response } = require("../helpers/commonResponseHandler");
 const { clientError } = require("../helpers/ErrorMsg");
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 
 async function login(req, res) {
   console.log("req body:", req.body);
@@ -19,7 +19,7 @@ async function login(req, res) {
     if (user) {
       console.log(user);
 
-      const isMatch = await bcrypt.compare(req.body.password, user.password);
+      // const isMatch = await bcrypt.compare(req.body.password, user.password);
       // if (isMatch) {
       logger.info("Login Success");
       response(res, true, 200, { user: user }, clientError.loginSuccess);
