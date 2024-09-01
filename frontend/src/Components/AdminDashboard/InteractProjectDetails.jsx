@@ -12,6 +12,9 @@ export default function InteractProjectDetails() {
   const [presidentName, setPresidentName] = useState("");
   const [secretaryName, setSeSecretaryName] = useState("");
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const todosPerPage = 8; // Number of projects per page
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -33,7 +36,7 @@ export default function InteractProjectDetails() {
     try {
       const response = await fetch(
         "https://server.rcmys.in/api/v1/projects/getAll"
-      ); // Replace with your API endpoint
+      );
       const data = await response.json();
       const clubEmail = location.state.club.email;
       let clubProjects = data.filter(
@@ -50,35 +53,40 @@ export default function InteractProjectDetails() {
   useEffect(() => {
     fetchProjectDetails();
   }, [clubName]);
+
   const handleDeleteClub = async (id) => {
     try {
-      // Debug log
       await fetch(`https://server.rcmys.in/api/v1/club/deleteClub/${id}`, {
         method: "DELETE",
       });
-      // Refresh data by fetching overview details and details report again
       fetchProjectDetails();
     } catch (error) {
       console.error("Error deleting club:", error);
     }
   };
 
-  // Get president name and secretary name from the first index of majoreData
-  // const presidentName =
-  //   majoreData.length > 0 ? majoreData[0].presidentName : "N/A";
-  // const secretaryName =
-  //   majoreData.length > 0 ? majoreData[0].secretaryName : "N/A";
   const handleExport = (club) => {
     navigate(`/exportAdmindashboardProject/${club.projectName}`, {
       state: { club },
     });
   };
 
-  // const handleUpdate = (club) => {
-  //   navigate(`/update-dashboard-project/${club.projectName}`, {
-  //     state: { club },
-  //   });
-  // };
+  // Pagination logic
+  const indexOfLastTodo = currentPage * todosPerPage;
+  const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+  const currentTodos = projectDetails.slice(indexOfFirstTodo, indexOfLastTodo);
+
+  const nextPage = () => {
+    if (currentPage < Math.ceil(projectDetails.length / todosPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -126,7 +134,7 @@ export default function InteractProjectDetails() {
           <table>
             <thead>
               <tr>
-                <th>project name </th>
+                <th>project name</th>
                 <th>month</th>
                 <th>avenue</th>
                 <th>
@@ -149,7 +157,7 @@ export default function InteractProjectDetails() {
               </tr>
             </thead>
             <tbody>
-              {projectDetails.map((eachDetail) => {
+              {currentTodos.map((eachDetail) => {
                 const { _id, projectName, projectMonth, projectAvenue } =
                   eachDetail;
                 return (
@@ -191,6 +199,21 @@ export default function InteractProjectDetails() {
               })}
             </tbody>
           </table>
+          <div className="flex justify-end mt-3">
+            {currentPage === 1 ? null : (
+              <button onClick={prevPage} className="uppercase">
+                Previous
+              </button>
+            )}
+            <span className="mx-4"> Page {currentPage} </span>
+
+            {currentPage ===
+            Math.ceil(projectDetails.length / todosPerPage) ? null : (
+              <button onClick={nextPage} className="uppercase">
+                Next
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </React.Fragment>

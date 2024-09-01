@@ -7,10 +7,15 @@ import { toast } from "react-toastify";
 
 export default function Rotaract() {
   const [rotaractDetailsReport, setRotaractDetailsReport] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const todosPerPage = 8; // Number of clubs per page
   const navigate = useNavigate();
+
   const fetchDetailsReport = async () => {
     try {
-      const response = await fetch("https://server.rcmys.in/api/v1/club/getAll"); // Replace with your API endpoint
+      const response = await fetch(
+        "https://server.rcmys.in/api/v1/club/getAll"
+      );
       const data = await response.json();
       const rotaractClubs = data.filter((club) => club.clubType === "rotaract");
       setRotaractDetailsReport(rotaractClubs);
@@ -18,16 +23,16 @@ export default function Rotaract() {
       console.error("Error fetching details report:", error);
     }
   };
+
   useEffect(() => {
     fetchDetailsReport();
   }, []);
+
   const handleDeleteClub = async (id) => {
     try {
-      console.log("Deleting club with id:", id); // Debug log
       await fetch(`https://server.rcmys.in/api/v1/club/deleteClub/${id}`, {
         method: "DELETE",
       });
-      // Refresh data by fetching overview details and details report again
       fetchDetailsReport();
     } catch (error) {
       console.error("Error deleting club:", error);
@@ -41,9 +46,26 @@ export default function Rotaract() {
     });
   };
 
-  // const handleUpdate = (club) => {
-  //   navigate(`/updateclub/${club.clubName}`, { state: { club } });
-  // };
+  // Pagination logic
+  const indexOfLastTodo = currentPage * todosPerPage;
+  const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+  const currentTodos = rotaractDetailsReport.slice(
+    indexOfFirstTodo,
+    indexOfLastTodo
+  );
+
+  const nextPage = () => {
+    if (currentPage < Math.ceil(rotaractDetailsReport.length / todosPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <React.Fragment>
       <nav className="navbar">
@@ -66,17 +88,15 @@ export default function Rotaract() {
           <table>
             <thead>
               <tr>
-                <th>club name </th>
+                <th>club name</th>
                 <th>club id</th>
                 <th>month</th>
                 <th>
-                  <input type="month" name="" id="" placeholder="enter month" />
+                  <input type="month" placeholder="enter month" />
                 </th>
                 <th>
                   <input
                     type="search"
-                    name=""
-                    id=""
                     style={{
                       padding: "10px",
                       borderRadius: "5px",
@@ -89,19 +109,16 @@ export default function Rotaract() {
               </tr>
             </thead>
             <tbody>
-              {rotaractDetailsReport.map((eachDetail) => {
+              {currentTodos.map((eachDetail) => {
                 const { _id, clubName, clubID, month } = eachDetail;
                 return (
                   <tr key={_id}>
                     <td onClick={() => redirect(eachDetail)}>{clubName}</td>
-
                     <td>{clubID}</td>
                     <td>{month}</td>
-
                     <td>
                       <button className="update">update</button>
                     </td>
-
                     <td>
                       <button
                         className="delete"
@@ -127,6 +144,21 @@ export default function Rotaract() {
               })}
             </tbody>
           </table>
+          <div className="flex justify-end mt-3">
+            {currentPage === 1 ? null : (
+              <button onClick={prevPage} className="uppercase">
+                Previous
+              </button>
+            )}
+            <span className="mx-4"> Page {currentPage} </span>
+
+            {currentPage ===
+            Math.ceil(rotaractDetailsReport.length / todosPerPage) ? null : (
+              <button onClick={nextPage} className="uppercase">
+                Next
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </React.Fragment>

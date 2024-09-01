@@ -13,6 +13,9 @@ export default function RotaractProjectDetails() {
   const [presidentName, setPresidentName] = useState("");
   const [secretaryName, setSeSecretaryName] = useState("");
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const todosPerPage = 8; // Number of projects per page
+
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
@@ -62,23 +65,29 @@ export default function RotaractProjectDetails() {
     }
   };
 
-  // Get president name and secretary name from the first index of majoreData
-  // const presidentName =
-  //   majoreData.length > 0 ? majoreData[0].presidentName : "N/A";
-  // const secretaryName =
-  //   majoreData.length > 0 ? majoreData[0].secretaryName : "N/A";
-
   const handleExport = (club) => {
     navigate(`/exportAdmindashboardProject/${club.projectName}`, {
       state: { club },
     });
   };
 
-  // const handleUpdate = (club) => {
-  //   navigate(`/update-dashboard-project/${club.projectName}`, {
-  //     state: { club },
-  //   });
-  // };
+  // Pagination logic
+  const indexOfLastTodo = currentPage * todosPerPage;
+  const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+  const currentTodos = projectDetails.slice(indexOfFirstTodo, indexOfLastTodo);
+
+  const nextPage = () => {
+    if (currentPage < Math.ceil(projectDetails.length / todosPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <React.Fragment>
       <nav className="navbar">
@@ -147,7 +156,7 @@ export default function RotaractProjectDetails() {
               </tr>
             </thead>
             <tbody>
-              {projectDetails.map((eachDetail) => {
+              {currentTodos.map((eachDetail) => {
                 const { _id, projectName, projectMonth, projectAvenue } =
                   eachDetail;
                 return (
@@ -189,6 +198,21 @@ export default function RotaractProjectDetails() {
               })}
             </tbody>
           </table>
+          <div className="flex justify-end mt-3">
+            {currentPage === 1 ? null : (
+              <button onClick={prevPage} className="uppercase">
+                Previous
+              </button>
+            )}
+            <span className="mx-4"> Page {currentPage} </span>
+
+            {currentPage ===
+            Math.ceil(projectDetails.length / todosPerPage) ? null : (
+              <button onClick={nextPage} className="uppercase">
+                Next
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </React.Fragment>

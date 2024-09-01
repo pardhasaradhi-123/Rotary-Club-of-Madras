@@ -6,7 +6,7 @@ export default function Aside() {
 
   return (
     <React.Fragment>
-      <aside>
+      <aside className="">
         <div className="aside-container">
           <div className="aside-top">
             <div className="logo-section">
